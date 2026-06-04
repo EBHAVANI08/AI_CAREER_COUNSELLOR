@@ -112,7 +112,7 @@ export default function MBTIAssessment() {
     return (
       <div className="space-y-6 animate-fade-in">
         <div className="flex items-center gap-3">
-          <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+          <button onClick={goBack} className="flex items-center gap-1 rounded-xl px-2 py-1.5 text-sm text-[#b0b0b0] transition-all hover:text-[#0a0a0a] hover:bg-[#f5f5f5]">
             <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
           </button>
           <h1 className="section-title">MBTI Results</h1>
@@ -121,35 +121,35 @@ export default function MBTIAssessment() {
         {/* Type Card */}
         <div className="ai-card">
           <div className="text-center">
-            <div className="text-4xl font-bold text-indigo-600 mb-2 tracking-tight">{mbtiResult.type}</div>
-            <div className="text-lg font-semibold text-gray-900 mb-2 tracking-tight">{desc.title}</div>
-            <p className="text-sm text-gray-600 leading-relaxed">{desc.description}</p>
+            <div className="text-4xl font-bold text-[#0c0c1d] mb-2 tracking-tight">{mbtiResult.type}</div>
+            <div className="text-lg font-semibold text-[#0a0a0a] mb-2 tracking-tight">{desc.title}</div>
+            <p className="text-sm text-[#4a4a4a] leading-relaxed">{desc.description}</p>
           </div>
         </div>
 
         {/* Dimension Sliders */}
         <div className="card">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Your Dimensions</h3>
+          <h3 className="text-xs font-semibold text-[#737373] uppercase tracking-wider mb-4">Your Dimensions</h3>
           <div className="space-y-5">
             {sliders.map((s) => {
               const leftPct = Math.round((s.leftVal / (s.leftVal + s.rightVal || 1)) * 100);
               return (
                 <div key={s.left}>
                   <div className="flex justify-between text-xs mb-1.5">
-                    <span className={`font-medium ${leftPct > 50 ? 'text-indigo-700' : 'text-gray-500'}`}>
+                    <span className={`font-medium ${leftPct > 50 ? 'text-[#0a0a0a]' : 'text-[#737373]'}`}>
                       {s.left} — {s.leftLabel}
                     </span>
-                    <span className={`font-medium ${leftPct < 50 ? 'text-indigo-700' : 'text-gray-500'}`}>
+                    <span className={`font-medium ${leftPct < 50 ? 'text-[#0a0a0a]' : 'text-[#737373]'}`}>
                       {s.right} — {s.rightLabel}
                     </span>
                   </div>
-                  <div className="relative h-2 rounded-full bg-gray-100 overflow-hidden">
+                  <div className="relative h-2 rounded-full bg-[#f0f0f0] overflow-hidden">
                     <div
-                      className="h-full rounded-l-full bg-indigo-500 transition-all duration-500"
+                      className="h-full rounded-l-full bg-[#0c0c1d] transition-all duration-500"
                       style={{ width: `${leftPct}%` }}
                     />
                   </div>
-                  <div className="flex justify-between text-xs text-gray-400 mt-1">
+                  <div className="flex justify-between text-xs text-[#b0b0b0] mt-1">
                     <span>{leftPct}%</span>
                     <span>{100 - leftPct}%</span>
                   </div>
@@ -162,18 +162,18 @@ export default function MBTIAssessment() {
         {/* Strengths & Careers */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="card">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Strengths</h3>
+            <h3 className="text-xs font-semibold text-[#737373] uppercase tracking-wider mb-3">Strengths</h3>
             <div className="flex flex-wrap gap-2">
               {desc.strengths.map(s => (
-                <span key={s} className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 border border-emerald-100">{s}</span>
+                <span key={s} className="rounded-full bg-[#f5f0e6] px-3 py-1 text-xs font-medium text-[#b8965a] border border-[#e5dcc8]">{s}</span>
               ))}
             </div>
           </div>
           <div className="card">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Career Matches</h3>
+            <h3 className="text-xs font-semibold text-[#737373] uppercase tracking-wider mb-3">Career Matches</h3>
             <div className="flex flex-wrap gap-2">
               {desc.careers.map(c => (
-                <span key={c} className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700 border border-indigo-100">{c}</span>
+                <span key={c} className="rounded-full bg-[#f5f5f5] px-3 py-1 text-xs font-medium text-[#0a0a0a] border border-[#ebebeb]">{c}</span>
               ))}
             </div>
           </div>
@@ -181,11 +181,11 @@ export default function MBTIAssessment() {
 
         {/* AI Analysis */}
         <div className="card">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-            <Brain className="h-4 w-4 text-indigo-500" /> AI Analysis
+          <h3 className="text-xs font-semibold text-[#737373] uppercase tracking-wider mb-3 flex items-center gap-2">
+            <Brain className="h-4 w-4 text-[#0c0c1d]" /> AI Analysis
           </h3>
           {analysis ? (
-            <p className="text-sm text-gray-700 leading-relaxed">{analysis}</p>
+            <p className="text-sm text-[#4a4a4a] leading-relaxed">{analysis}</p>
           ) : (
             <button
               onClick={handleGetAIAnalysis}
@@ -207,10 +207,10 @@ export default function MBTIAssessment() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
-        <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+        <button onClick={goBack} className="flex items-center gap-1 rounded-xl px-2 py-1.5 text-sm text-[#b0b0b0] transition-all hover:text-[#0a0a0a] hover:bg-[#f5f5f5]">
           <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
         </button>
-        <span className="text-sm text-gray-500">Question {currentQ + 1} of {totalQuestions}</span>
+        <span className="text-sm text-[#737373]">Question {currentQ + 1} of {totalQuestions}</span>
       </div>
 
       <div>
@@ -219,16 +219,16 @@ export default function MBTIAssessment() {
       </div>
 
       {/* Progress Bar */}
-      <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
+      <div className="h-1.5 rounded-full bg-[#f0f0f0] overflow-hidden">
         <div
-          className="h-full rounded-full bg-indigo-500 transition-all duration-300"
+          className="h-full rounded-full bg-[#0c0c1d] transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>
 
       {/* Question */}
       <div className="card">
-        <p className="text-lg font-medium text-gray-900 mb-6">{question.text}</p>
+        <p className="text-lg font-medium text-[#0a0a0a] mb-6">{question.text}</p>
         <div className="space-y-3">
           {[question.optionA, question.optionB].map((option, i) => {
             const choice = i === 0 ? 'A' : 'B';
@@ -237,14 +237,14 @@ export default function MBTIAssessment() {
               <button
                 key={choice}
                 onClick={() => handleAnswer(choice as 'A' | 'B')}
-                className={`w-full flex items-center gap-3 rounded-lg border p-4 text-left transition-all ${
+                className={`w-full flex items-center gap-3 rounded-xl border p-4 text-left transition-all ${
                   isSelected
-                    ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                    : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
+                    ? 'border-[#0c0c1d] bg-[#f5f5f5] text-[#0a0a0a]'
+                    : 'border-[#ebebeb] bg-white text-[#4a4a4a] hover:border-[#d4d4d4] hover:bg-[#fafafa]'
                 }`}
               >
                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                  isSelected ? 'bg-indigo-500 text-white' : 'bg-gray-50 text-gray-500 border border-gray-200'
+                  isSelected ? 'bg-[#0c0c1d] text-white' : 'bg-[#f5f5f5] text-[#737373] border border-[#ebebeb]'
                 }`}>
                   {choice}
                 </div>
@@ -271,7 +271,7 @@ export default function MBTIAssessment() {
               key={i}
               onClick={() => setCurrentQ(i)}
               className={`h-1.5 rounded-full transition-all ${
-                i === currentQ ? 'bg-indigo-500 w-4' : answers[i] !== undefined ? 'bg-indigo-300' : 'bg-gray-200'
+                i === currentQ ? 'bg-[#0c0c1d] w-4' : answers[i] !== undefined ? 'bg-[#d4d4d4]' : 'bg-[#ebebeb]'
               }`}
             />
           ))}

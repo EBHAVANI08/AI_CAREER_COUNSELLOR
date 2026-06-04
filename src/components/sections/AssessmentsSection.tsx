@@ -58,8 +58,8 @@ export default function AssessmentsSection() {
       id: 'riasec',
       name: 'RIASEC Personality Assessment',
       icon: Target,
-      color: 'text-indigo-500',
-      bgColor: 'bg-indigo-50',
+      color: 'text-[#0c0c1d]',
+      bgColor: 'bg-[#f5f5f5]',
       description: 'Discover your career personality type based on Holland\'s theory of vocational choice. Find careers that match your natural work preferences.',
       theory: "Based on John Holland's Theory of Career Choice (1959)",
       accuracy: 'Validated across 50+ countries with 85%+ accuracy',
@@ -73,8 +73,8 @@ export default function AssessmentsSection() {
       id: 'mbti',
       name: 'MBTI Personality Assessment',
       icon: Brain,
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-50',
+      color: 'text-[#b8965a]',
+      bgColor: 'bg-[#f5f0e6]',
       description: 'Understand your work personality through the Myers-Briggs framework. Discover how your cognitive preferences shape your ideal career.',
       theory: 'Based on Carl Jung\'s psychological types (1921), adapted by Myers & Briggs (1943)',
       accuracy: 'Used by 88 of Fortune 100 companies, validated with millions of respondents',
@@ -88,8 +88,8 @@ export default function AssessmentsSection() {
       id: 'career-quiz',
       name: 'Career Field Quiz',
       icon: BarChart3,
-      color: 'text-emerald-500',
-      bgColor: 'bg-emerald-50',
+      color: 'text-[#4a4a4a]',
+      bgColor: 'bg-[#f5f5f5]',
       description: 'Find your ideal career field among highest-growth sectors. Discover which industry matches your interests and values.',
       theory: 'Based on Theory of Work Adjustment (Dawis & Lofquist, 1984)',
       accuracy: 'Aligned with market data, 80%+ field-match accuracy',
@@ -117,7 +117,7 @@ export default function AssessmentsSection() {
         {assessments.map((assessment) => (
           <div
             key={assessment.id}
-            className="group relative rounded-xl border border-gray-200/80 bg-white p-6 transition-all duration-200 hover:border-gray-300 hover:shadow-md hover:-translate-y-0.5"
+            className="group relative rounded-2xl border border-[#f0f0f0] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.03)] transition-all duration-300 hover:border-[#e0e0e0] hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
           >
             {/* Icon & Status */}
             <div className="flex items-start justify-between mb-4">
@@ -129,35 +129,35 @@ export default function AssessmentsSection() {
                   <CheckCircle2 className="h-3 w-3" /> Done
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 rounded-full bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-500 border border-gray-100">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#f5f5f5] px-2.5 py-1 text-xs font-medium text-[#737373] border border-[#ebebeb]">
                   <Circle className="h-3 w-3" /> Not Started
                 </span>
               )}
             </div>
 
             {/* Name */}
-            <h3 className="text-base font-bold text-gray-900 mb-1.5 tracking-tight">{assessment.name}</h3>
-            <p className="text-xs text-gray-500 mb-4 line-clamp-3 leading-relaxed">{assessment.description}</p>
+            <h3 className="text-base font-bold text-[#0a0a0a] mb-1.5 tracking-tight">{assessment.name}</h3>
+            <p className="text-xs text-[#737373] mb-4 line-clamp-3 leading-relaxed">{assessment.description}</p>
 
             {/* Meta Info */}
             <div className="space-y-1.5 mb-4">
-              <div className="flex items-center gap-2 text-xs text-gray-500">
-                <BookOpen className="h-3.5 w-3.5 text-gray-400" />
+              <div className="flex items-center gap-2 text-xs text-[#737373]">
+                <BookOpen className="h-3.5 w-3.5 text-[#b0b0b0]" />
                 <span className="line-clamp-1">{assessment.theory}</span>
               </div>
-              <div className="flex items-center gap-2 text-xs text-gray-500">
+              <div className="flex items-center gap-2 text-xs text-[#737373]">
                 <Shield className="h-3.5 w-3.5 text-emerald-500" />
                 <span>{assessment.accuracy}</span>
               </div>
-              <div className="flex items-center gap-2 text-xs text-gray-500">
-                <Clock className="h-3.5 w-3.5 text-gray-400" />
+              <div className="flex items-center gap-2 text-xs text-[#737373]">
+                <Clock className="h-3.5 w-3.5 text-[#b0b0b0]" />
                 <span>{assessment.timeRequired} &middot; {assessment.numQuestions} questions</span>
               </div>
             </div>
 
             {/* Result Preview */}
             {assessment.resultPreview && (
-              <div className="mb-4 p-2.5 rounded-lg bg-emerald-50 border border-emerald-100">
+              <div className="mb-4 p-2.5 rounded-xl bg-emerald-50 border border-emerald-100">
                 <span className="text-xs font-medium text-emerald-700">{assessment.resultPreview}</span>
               </div>
             )}
@@ -166,10 +166,10 @@ export default function AssessmentsSection() {
             <div className="flex gap-2">
               <button
                 onClick={() => store.navigateTo(assessment.section)}
-                className={`flex-1 flex items-center justify-center gap-1 rounded-lg py-2.5 text-sm font-medium transition-all ${
+                className={`flex-1 flex items-center justify-center gap-1 rounded-xl py-2.5 text-sm font-medium transition-all ${
                   assessment.status === 'completed'
-                    ? 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100 border border-indigo-100'
-                    : 'bg-indigo-500 text-white hover:bg-indigo-600'
+                    ? 'bg-[#f5f5f5] text-[#0c0c1d] hover:bg-[#ebebeb] border border-[#ebebeb]'
+                    : 'bg-[#0c0c1d] text-white hover:bg-[#1a1a2e]'
                 }`}
               >
                 {assessment.status === 'completed' ? (
@@ -180,7 +180,7 @@ export default function AssessmentsSection() {
               </button>
               <button
                 onClick={() => setSelectedTheory(assessment.id)}
-                className="flex items-center justify-center gap-1 rounded-lg border border-gray-200 px-3 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-50 hover:border-gray-300 transition-all"
+                className="flex items-center justify-center gap-1 rounded-xl border border-[#ebebeb] px-3 py-2.5 text-sm font-medium text-[#737373] hover:bg-[#f5f5f5] hover:border-[#d4d4d4] transition-all"
               >
                 <Lightbulb className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Theory</span>
@@ -193,35 +193,35 @@ export default function AssessmentsSection() {
       {/* Assessment Summary */}
       {completedCount > 0 && (
         <div className="ai-card">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-indigo-500" />
+          <h3 className="text-sm font-semibold text-[#0a0a0a] mb-3 flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-[#0c0c1d]" />
             Your Assessment Summary
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {store.riasecResult && (
-              <div className="p-3 rounded-xl bg-gray-50 border border-gray-100">
-                <div className="text-xs font-semibold text-indigo-600 mb-1">RIASEC</div>
-                <div className="text-lg font-bold text-gray-900 tracking-tight">{store.riasecResult.topTwoCode}</div>
-                <div className="text-xs text-gray-500">Top: {store.riasecResult.topCode}</div>
+              <div className="p-3 rounded-xl bg-[#f5f5f5] border border-[#ebebeb]">
+                <div className="text-xs font-semibold text-[#0c0c1d] mb-1">RIASEC</div>
+                <div className="text-lg font-bold text-[#0a0a0a] tracking-tight">{store.riasecResult.topTwoCode}</div>
+                <div className="text-xs text-[#737373]">Top: {store.riasecResult.topCode}</div>
               </div>
             )}
             {store.mbtiResult && (
-              <div className="p-3 rounded-xl bg-gray-50 border border-gray-100">
-                <div className="text-xs font-semibold text-blue-600 mb-1">MBTI</div>
-                <div className="text-lg font-bold text-gray-900 tracking-tight">{store.mbtiResult.type}</div>
-                <div className="text-xs text-gray-500">Personality type</div>
+              <div className="p-3 rounded-xl bg-[#f5f0e6] border border-[#e5dcc8]">
+                <div className="text-xs font-semibold text-[#b8965a] mb-1">MBTI</div>
+                <div className="text-lg font-bold text-[#0a0a0a] tracking-tight">{store.mbtiResult.type}</div>
+                <div className="text-xs text-[#737373]">Personality type</div>
               </div>
             )}
             {store.careerQuizResult && store.careerQuizResult.topFields.length > 0 && (
-              <div className="p-3 rounded-xl bg-gray-50 border border-gray-100">
-                <div className="text-xs font-semibold text-emerald-600 mb-1">Career Field</div>
-                <div className="text-lg font-bold text-gray-900 tracking-tight">{store.careerQuizResult.topFields[0].field}</div>
-                <div className="text-xs text-gray-500">{store.careerQuizResult.topFields[0].matchPercentage}% match</div>
+              <div className="p-3 rounded-xl bg-[#f5f5f5] border border-[#ebebeb]">
+                <div className="text-xs font-semibold text-[#4a4a4a] mb-1">Career Field</div>
+                <div className="text-lg font-bold text-[#0a0a0a] tracking-tight">{store.careerQuizResult.topFields[0].field}</div>
+                <div className="text-xs text-[#737373]">{store.careerQuizResult.topFields[0].matchPercentage}% match</div>
               </div>
             )}
           </div>
           <div className="mt-3 text-center">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-[#737373]">
               {completedCount}/3 assessments completed
               {completedCount < 3 && ' — complete all three for a comprehensive AI analysis'}
             </p>
@@ -241,28 +241,28 @@ export default function AssessmentsSection() {
           {selectedTheory && assessmentTheoryDetails[selectedTheory] && (
             <div className="space-y-4 mt-2">
               <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-1 flex items-center gap-1.5">
-                  <BookOpen className="h-4 w-4 text-indigo-500" /> Scientific Theory
+                <h4 className="text-sm font-semibold text-[#0a0a0a] mb-1 flex items-center gap-1.5">
+                  <BookOpen className="h-4 w-4 text-[#0c0c1d]" /> Scientific Theory
                 </h4>
-                <p className="text-sm text-gray-600">{assessmentTheoryDetails[selectedTheory].theory}</p>
+                <p className="text-sm text-[#4a4a4a]">{assessmentTheoryDetails[selectedTheory].theory}</p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-1 flex items-center gap-1.5">
-                  <Award className="h-4 w-4 text-blue-500" /> Methodology
+                <h4 className="text-sm font-semibold text-[#0a0a0a] mb-1 flex items-center gap-1.5">
+                  <Award className="h-4 w-4 text-[#b8965a]" /> Methodology
                 </h4>
-                <p className="text-sm text-gray-600">{assessmentTheoryDetails[selectedTheory].methodology}</p>
+                <p className="text-sm text-[#4a4a4a]">{assessmentTheoryDetails[selectedTheory].methodology}</p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-1 flex items-center gap-1.5">
+                <h4 className="text-sm font-semibold text-[#0a0a0a] mb-1 flex items-center gap-1.5">
                   <Target className="h-4 w-4 text-emerald-500" /> What It Measures
                 </h4>
-                <p className="text-sm text-gray-600">{assessmentTheoryDetails[selectedTheory].measures}</p>
+                <p className="text-sm text-[#4a4a4a]">{assessmentTheoryDetails[selectedTheory].measures}</p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-1 flex items-center gap-1.5">
-                  <Lightbulb className="h-4 w-4 text-amber-500" /> Sample Question
+                <h4 className="text-sm font-semibold text-[#0a0a0a] mb-1 flex items-center gap-1.5">
+                  <Lightbulb className="h-4 w-4 text-[#b8965a]" /> Sample Question
                 </h4>
-                <div className="p-3 rounded-lg bg-gray-50 text-sm text-gray-700 italic border border-gray-100">
+                <div className="p-3 rounded-xl bg-[#f5f5f5] text-sm text-[#4a4a4a] italic border border-[#ebebeb]">
                   {assessmentTheoryDetails[selectedTheory].sampleQuestion}
                 </div>
               </div>

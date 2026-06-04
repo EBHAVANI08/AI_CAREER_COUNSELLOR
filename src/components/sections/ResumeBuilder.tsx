@@ -113,7 +113,7 @@ export default function ResumeBuilder() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
-        <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+        <button onClick={goBack} className="flex items-center gap-1 rounded-xl px-2 py-1.5 text-sm text-[#b0b0b0] transition-all hover:text-[#0a0a0a] hover:bg-[#f5f5f5]">
           <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
         </button>
         <h1 className="section-title">Resume Builder</h1>
@@ -123,14 +123,14 @@ export default function ResumeBuilder() {
         {/* Left: Form */}
         <div className="space-y-4">
           <div className="card">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <h3 className="text-xs font-semibold text-[#737373] uppercase tracking-wider mb-4 flex items-center gap-2">
               <FileText className="h-4 w-4" /> Resume Details
             </h3>
 
             <div className="space-y-4">
               {fields.map(field => (
                 <div key={field.key}>
-                  <label className="block text-xs font-medium text-gray-600 mb-1.5">{field.label}</label>
+                  <label className="block text-xs font-medium text-[#4a4a4a] mb-1.5">{field.label}</label>
                   <input
                     type={field.type}
                     value={formData[field.key as keyof typeof formData]}
@@ -143,7 +143,7 @@ export default function ResumeBuilder() {
 
               {textAreas.map(field => (
                 <div key={field.key}>
-                  <label className="block text-xs font-medium text-gray-600 mb-1.5">{field.label}</label>
+                  <label className="block text-xs font-medium text-[#4a4a4a] mb-1.5">{field.label}</label>
                   <textarea
                     value={formData[field.key as keyof typeof formData]}
                     onChange={(e) => handleChange(field.key, e.target.value)}
@@ -170,7 +170,7 @@ export default function ResumeBuilder() {
         <div className="space-y-4">
           <div className="card">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+              <h3 className="text-xs font-semibold text-[#737373] uppercase tracking-wider flex items-center gap-2">
                 <FileText className="h-4 w-4" /> Preview
               </h3>
               {resumeContent && (
@@ -186,18 +186,18 @@ export default function ResumeBuilder() {
             </div>
 
             {resumeContent ? (
-              <div className="rounded-lg border border-gray-200 bg-white p-4 max-h-[600px] overflow-y-auto custom-scroll">
-                <pre className="text-xs text-gray-800 whitespace-pre-wrap font-mono leading-relaxed">
+              <div className="rounded-xl border border-[#ebebeb] bg-white p-4 max-h-[600px] overflow-y-auto custom-scroll">
+                <pre className="text-xs text-[#4a4a4a] whitespace-pre-wrap font-mono leading-relaxed">
                   {resumeContent}
                 </pre>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center py-16 text-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-50 mb-4 border border-gray-100">
-                  <FileText className="h-7 w-7 text-gray-400" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#f5f5f5] mb-4 border border-[#ebebeb]">
+                  <FileText className="h-7 w-7 text-[#b0b0b0]" />
                 </div>
-                <h3 className="text-sm font-semibold text-gray-900 mb-1">No resume yet</h3>
-                <p className="text-xs text-gray-500 max-w-xs">
+                <h3 className="text-sm font-semibold text-[#0a0a0a] mb-1">No resume yet</h3>
+                <p className="text-xs text-[#737373] max-w-xs">
                   Fill in your details on the left and click &ldquo;Generate with AI&rdquo; to create your ATS-optimized resume.
                 </p>
               </div>

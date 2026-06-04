@@ -102,7 +102,7 @@ export default function CareerQuiz() {
     return (
       <div className="space-y-6 animate-fade-in">
         <div className="flex items-center gap-3">
-          <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+          <button onClick={goBack} className="flex items-center gap-1 rounded-xl px-2 py-1.5 text-sm text-[#b0b0b0] transition-all hover:text-[#0a0a0a] hover:bg-[#f5f5f5]">
             <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
           </button>
           <h1 className="section-title">Career Quiz Results</h1>
@@ -118,34 +118,34 @@ export default function CareerQuiz() {
               <div key={field.field} className={isTop ? 'ai-card' : 'card'}>
                 <div className="flex items-start gap-4">
                   <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-sm font-bold ${
-                    isTop ? 'bg-indigo-500 text-white' : 'bg-gray-100 text-gray-500'
+                    isTop ? 'bg-[#0c0c1d] text-white' : 'bg-[#f5f5f5] text-[#4a4a4a]'
                   }`}>
                     #{i + 1}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-lg font-bold text-gray-900 tracking-tight">{fieldData.name}</h3>
-                      <span className="text-sm font-semibold text-indigo-600">{field.matchPercentage}% match</span>
+                      <h3 className="text-lg font-bold text-[#0a0a0a] tracking-tight">{fieldData.name}</h3>
+                      <span className="text-sm font-semibold text-[#0c0c1d]">{field.matchPercentage}% match</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-3">
+                    <div className="flex items-center gap-2 text-xs text-[#737373] mb-3">
                       <TrendingUp className="h-3 w-3 text-emerald-500" /> {fieldData.growthPercent}% growth
                       <span>&middot;</span>
                       <span>{fieldData.demandLevel} demand</span>
                     </div>
                     <div className="mb-3">
-                      <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                      <div className="h-1.5 rounded-full bg-[#f0f0f0] overflow-hidden">
                         <div
-                          className="h-full rounded-full bg-indigo-500 animate-progress"
+                          className="h-full rounded-full bg-[#0c0c1d] animate-progress"
                           style={{ width: `${field.matchPercentage}%` }}
                         />
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-1.5 mb-2">
                       {fieldData.hotRoles.slice(0, 3).map(role => (
-                        <span key={role} className="rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700 border border-indigo-100">{role}</span>
+                        <span key={role} className="rounded-full bg-[#f5f5f5] px-2 py-0.5 text-xs font-medium text-[#0a0a0a] border border-[#ebebeb]">{role}</span>
                       ))}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-[#737373]">
                       {fieldData.salaryRanges.entry} (Entry) &middot; {fieldData.salaryRanges.mid} (Mid) &middot; {fieldData.salaryRanges.senior} (Senior)
                     </div>
                   </div>
@@ -157,7 +157,7 @@ export default function CareerQuiz() {
 
         {/* All Field Scores */}
         <div className="card">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">All Field Scores</h3>
+          <h3 className="text-xs font-semibold text-[#737373] uppercase tracking-wider mb-4">All Field Scores</h3>
           <div className="space-y-2.5">
             {Object.entries(careerQuizResult.fieldScores)
               .sort((a, b) => b[1] - a[1])
@@ -165,11 +165,11 @@ export default function CareerQuiz() {
                 const fd = careerFields[field];
                 return (
                   <div key={field} className="flex items-center gap-3">
-                    <span className="text-xs font-medium text-gray-600 w-24 truncate">{fd?.name || field}</span>
-                    <div className="flex-1 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                      <div className="h-full rounded-full bg-indigo-400" style={{ width: `${Math.min(score * 1.5, 100)}%` }} />
+                    <span className="text-xs font-medium text-[#4a4a4a] w-24 truncate">{fd?.name || field}</span>
+                    <div className="flex-1 h-1.5 rounded-full bg-[#f0f0f0] overflow-hidden">
+                      <div className="h-full rounded-full bg-[#0c0c1d]" style={{ width: `${Math.min(score * 1.5, 100)}%` }} />
                     </div>
-                    <span className="text-xs font-semibold text-gray-500 w-8 text-right">{score}%</span>
+                    <span className="text-xs font-semibold text-[#737373] w-8 text-right">{score}%</span>
                   </div>
                 );
               })}
@@ -178,11 +178,11 @@ export default function CareerQuiz() {
 
         {/* AI Analysis */}
         <div className="card">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-            <Brain className="h-4 w-4 text-indigo-500" /> AI Analysis
+          <h3 className="text-xs font-semibold text-[#737373] uppercase tracking-wider mb-3 flex items-center gap-2">
+            <Brain className="h-4 w-4 text-[#0c0c1d]" /> AI Analysis
           </h3>
           {analysis ? (
-            <p className="text-sm text-gray-700 leading-relaxed">{analysis}</p>
+            <p className="text-sm text-[#4a4a4a] leading-relaxed">{analysis}</p>
           ) : (
             <button
               onClick={handleGetAIAnalysis}
@@ -204,10 +204,10 @@ export default function CareerQuiz() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
-        <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+        <button onClick={goBack} className="flex items-center gap-1 rounded-xl px-2 py-1.5 text-sm text-[#b0b0b0] transition-all hover:text-[#0a0a0a] hover:bg-[#f5f5f5]">
           <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
         </button>
-        <span className="text-sm text-gray-500">Question {currentQ + 1} of {totalQuestions}</span>
+        <span className="text-sm text-[#737373]">Question {currentQ + 1} of {totalQuestions}</span>
       </div>
 
       <div>
@@ -216,16 +216,16 @@ export default function CareerQuiz() {
       </div>
 
       {/* Progress Bar */}
-      <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
+      <div className="h-1.5 rounded-full bg-[#f0f0f0] overflow-hidden">
         <div
-          className="h-full rounded-full bg-indigo-500 transition-all duration-300"
+          className="h-full rounded-full bg-[#0c0c1d] transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>
 
       {/* Question */}
       <div className="card">
-        <p className="text-lg font-medium text-gray-900 mb-6">{question.text}</p>
+        <p className="text-lg font-medium text-[#0a0a0a] mb-6">{question.text}</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {question.options.map((option, i) => {
             const isSelected = answers[currentQ] === i;
@@ -233,18 +233,18 @@ export default function CareerQuiz() {
               <button
                 key={i}
                 onClick={() => handleAnswer(i)}
-                className={`flex items-start gap-3 rounded-lg border p-4 text-left transition-all ${
+                className={`flex items-start gap-3 rounded-xl border p-4 text-left transition-all ${
                   isSelected
-                    ? 'border-indigo-500 bg-indigo-50'
-                    : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                    ? 'border-[#0c0c1d] bg-[#f5f5f5]'
+                    : 'border-[#ebebeb] bg-white hover:border-[#d4d4d4] hover:bg-[#fafafa]'
                 }`}
               >
                 <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                  isSelected ? 'bg-indigo-500 text-white' : 'bg-gray-50 text-gray-500 border border-gray-200'
+                  isSelected ? 'bg-[#0c0c1d] text-white' : 'bg-[#f5f5f5] text-[#737373] border border-[#ebebeb]'
                 }`}>
                   {String.fromCharCode(65 + i)}
                 </div>
-                <span className={`text-sm font-medium ${isSelected ? 'text-indigo-700' : 'text-gray-700'}`}>
+                <span className={`text-sm font-medium ${isSelected ? 'text-[#0a0a0a]' : 'text-[#4a4a4a]'}`}>
                   {option.text}
                 </span>
               </button>
@@ -269,7 +269,7 @@ export default function CareerQuiz() {
               key={i}
               onClick={() => setCurrentQ(i)}
               className={`h-1.5 rounded-full transition-all ${
-                i === currentQ ? 'bg-indigo-500 w-4' : answers[i] !== undefined ? 'bg-indigo-300' : 'bg-gray-200'
+                i === currentQ ? 'bg-[#0c0c1d] w-4' : answers[i] !== undefined ? 'bg-[#d4d4d4]' : 'bg-[#ebebeb]'
               }`}
             />
           ))}

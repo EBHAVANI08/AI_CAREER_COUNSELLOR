@@ -74,14 +74,14 @@ export default function Home() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-white">
         <div className="flex flex-col items-center gap-4">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500 animate-pulse">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#0c0c1d] animate-pulse">
             <svg className="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 2L2 7l10 5 10-5-10-5z"/>
               <path d="M2 17l10 5 10-5"/>
               <path d="M2 12l10 5 10-5"/>
             </svg>
           </div>
-          <p className="text-sm text-gray-400">Loading...</p>
+          <p className="text-sm text-[#a3a3a3]">Loading...</p>
         </div>
       </div>
     );
@@ -94,11 +94,11 @@ export default function Home() {
 
   // Authenticated app — with sidebar
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-[#fafafa]">
       <Sidebar />
       <MobileNav />
       <main className="lg:pl-60">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 pb-24 lg:pb-6">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6 lg:px-8 py-6 pb-24 lg:pb-6">
           <SectionRenderer />
         </div>
       </main>

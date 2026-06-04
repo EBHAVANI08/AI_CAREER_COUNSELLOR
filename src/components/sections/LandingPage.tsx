@@ -42,21 +42,21 @@ export default function LandingPage() {
       <div className="hidden lg:flex lg:w-1/2 ai-gradient flex-col justify-between p-12 text-white relative overflow-hidden">
         <div className="relative z-10">
           <div className="flex items-center gap-2.5 mb-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 backdrop-blur-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 backdrop-blur-sm">
               <Zap className="h-5 w-5 text-white" />
             </div>
             <span className="text-lg font-bold tracking-tight">CareerAI</span>
           </div>
           <div className="mt-3">
-            <span className="ai-badge bg-white/10 text-white/90 backdrop-blur-sm text-xs border border-white/10">
-              Powered by Multi-Agent AI
+            <span className="ai-badge bg-[#b8965a]/20 text-[#d4b87a] border border-[#b8965a]/20 text-xs">
+              <Sparkles className="h-3 w-3" /> Powered by Multi-Agent AI
             </span>
           </div>
         </div>
 
         <div className="relative z-10 space-y-6">
           <div>
-            <div className="h-1 w-10 rounded-full bg-white/40 mb-6" />
+            <div className="h-1 w-10 rounded-full bg-[#b8965a]/60 mb-6" />
             <h1 className="text-4xl xl:text-5xl font-bold leading-tight tracking-tight">
               Discover Your<br />
               Dream Career
@@ -68,8 +68,8 @@ export default function LandingPage() {
 
           <div className="space-y-3 mt-8">
             {features.map((f, i) => (
-              <div key={i} className="flex items-start gap-3.5 rounded-xl bg-white/10 backdrop-blur-sm p-4 transition-all hover:bg-white/15 border border-white/5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/15">
+              <div key={i} className="flex items-start gap-3.5 rounded-xl bg-white/8 backdrop-blur-sm p-4 transition-all hover:bg-white/12 border border-white/10">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/12">
                   <f.icon className="h-4.5 w-4.5" />
                 </div>
                 <div>
@@ -92,18 +92,18 @@ export default function LandingPage() {
           {/* Mobile Logo */}
           <div className="lg:hidden text-center">
             <div className="inline-flex items-center gap-2 mb-4">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0c0c1d]">
                 <Zap className="h-5 w-5 text-white" />
               </div>
-              <span className="text-lg font-bold text-gray-900 tracking-tight">CareerAI</span>
+              <span className="text-lg font-bold text-[#0a0a0a] tracking-tight">CareerAI</span>
             </div>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+            <h2 className="text-3xl font-bold tracking-tight text-[#0a0a0a]">
               {isSignUp ? 'Create your account' : 'Welcome back'}
             </h2>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-[#737373]">
               {isSignUp
                 ? 'Start your journey to a fulfilling career'
                 : 'Sign in to continue your career journey'}
@@ -113,7 +113,7 @@ export default function LandingPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && (
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label htmlFor="name" className="block text-sm font-medium text-[#4a4a4a] mb-1.5">
                   Full Name
                 </label>
                 <input
@@ -128,7 +128,7 @@ export default function LandingPage() {
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label htmlFor="email" className="block text-sm font-medium text-[#4a4a4a] mb-1.5">
                 Email Address
               </label>
               <input
@@ -142,7 +142,7 @@ export default function LandingPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label htmlFor="password" className="block text-sm font-medium text-[#4a4a4a] mb-1.5">
                 Password
               </label>
               <div className="relative">
@@ -157,7 +157,7 @@ export default function LandingPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#b0b0b0] hover:text-[#737373]"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -165,7 +165,7 @@ export default function LandingPage() {
             </div>
 
             {error && (
-              <div className="rounded-lg bg-red-50 border border-red-100 p-3 text-sm text-red-600">
+              <div className="rounded-xl bg-red-50 border border-red-100 p-3 text-sm text-red-600">
                 {error}
               </div>
             )}
@@ -189,17 +189,17 @@ export default function LandingPage() {
           <div className="text-center">
             <button
               onClick={() => { setIsSignUp(!isSignUp); setError(''); }}
-              className="text-sm text-indigo-500 hover:text-indigo-600 font-medium"
+              className="text-sm text-[#0c0c1d] hover:text-[#1a1a2e] font-medium"
             >
               {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
             </button>
           </div>
 
           {/* Mobile Features */}
-          <div className="lg:hidden space-y-3 pt-4 border-t border-gray-100">
+          <div className="lg:hidden space-y-3 pt-4 border-t border-[#f0f0f0]">
             {features.slice(0, 2).map((f, i) => (
-              <div key={i} className="flex items-center gap-3 text-sm text-gray-600">
-                <f.icon className="h-4 w-4 text-indigo-400 shrink-0" />
+              <div key={i} className="flex items-center gap-3 text-sm text-[#4a4a4a]">
+                <f.icon className="h-4 w-4 text-[#0c0c1d] shrink-0" />
                 <span>{f.title}</span>
               </div>
             ))}

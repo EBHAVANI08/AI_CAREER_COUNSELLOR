@@ -104,19 +104,19 @@ export default function ChatCoach() {
   return (
     <div className="flex flex-col h-[calc(100vh-8rem)] lg:h-[calc(100vh-6rem)]">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
+      <div className="flex items-center justify-between border-b border-[#f0f0f0] pb-4 mb-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500">
-            <Zap className="h-4.5 w-4.5 text-white" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0c0c1d] text-white">
+            <Zap className="h-4.5 w-4.5" />
           </div>
           <div>
-            <h1 className="text-base font-bold text-gray-900 tracking-tight">AI Career Coach</h1>
-            <span className="text-xs text-gray-400">Powered by 6 specialized agents</span>
+            <h1 className="text-base font-bold text-[#0a0a0a] tracking-tight">AI Career Coach</h1>
+            <span className="text-xs text-[#b0b0b0]">Powered by 6 specialized agents</span>
           </div>
         </div>
         <button
           onClick={clearChat}
-          className="btn-ghost text-xs py-1.5 text-gray-400 hover:text-red-500"
+          className="btn-ghost text-xs py-1.5 text-[#b0b0b0] hover:text-red-500"
           title="Clear chat"
         >
           <Trash2 className="h-4 w-4" /> Clear
@@ -128,11 +128,11 @@ export default function ChatCoach() {
         {chatMessages.length === 0 ? (
           /* Empty State */
           <div className="flex flex-col items-center justify-center h-full text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 mb-4">
-              <MessageSquare className="h-7 w-7 text-indigo-400" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#f5f5f5] mb-4">
+              <MessageSquare className="h-7 w-7 text-[#b0b0b0]" />
             </div>
-            <h3 className="text-base font-semibold text-gray-900 mb-1">Start a conversation</h3>
-            <p className="text-sm text-gray-500 mb-6 max-w-sm">
+            <h3 className="text-base font-semibold text-[#0a0a0a] mb-1">Start a conversation</h3>
+            <p className="text-sm text-[#737373] mb-6 max-w-sm">
               Ask me anything about careers, assessments, salary, or learning paths.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-lg">
@@ -140,9 +140,9 @@ export default function ChatCoach() {
                 <button
                   key={prompt}
                   onClick={() => sendMessage(prompt)}
-                  className="text-left p-3.5 rounded-xl border border-gray-200/80 bg-white text-sm text-gray-700 transition-all duration-200 hover:border-gray-300 hover:shadow-sm"
+                  className="text-left p-3.5 rounded-xl border border-[#f0f0f0] bg-white text-sm text-[#4a4a4a] transition-all duration-300 hover:border-[#e0e0e0] hover:shadow-sm"
                 >
-                  <Sparkles className="h-3 w-3 text-indigo-400 mb-1.5" />
+                  <Sparkles className="h-3 w-3 text-[#b8965a] mb-1.5" />
                   {prompt}
                 </button>
               ))}
@@ -156,17 +156,17 @@ export default function ChatCoach() {
                 <div className={`max-w-[85%] sm:max-w-[70%] ${msg.role === 'user' ? '' : ''}`}>
                   {msg.role === 'assistant' && (
                     <div className="flex items-center gap-1.5 mb-1">
-                      <Sparkles className="h-3 w-3 text-indigo-500" />
-                      <span className="text-xs font-medium text-indigo-600">CareerAI</span>
+                      <Sparkles className="h-3 w-3 text-[#0c0c1d]" />
+                      <span className="text-xs font-medium text-[#0c0c1d]">CareerAI</span>
                       {msg.agentUsed && (
-                        <span className="text-xs text-gray-400">&middot; {msg.agentUsed.replace(/_/g, ' ')}</span>
+                        <span className="text-xs text-[#b0b0b0]">&middot; {msg.agentUsed.replace(/_/g, ' ')}</span>
                       )}
                     </div>
                   )}
                   <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === 'user'
-                      ? 'bg-indigo-500 text-white rounded-tr-sm'
-                      : 'bg-gray-50 text-gray-800 rounded-tl-sm border border-gray-100'
+                      ? 'bg-[#0c0c1d] text-white rounded-tr-sm'
+                      : 'bg-[#f7f7f8] text-[#1a1a1a] rounded-tl-sm border border-[#f0f0f0]'
                   }`}>
                     {msg.content}
                   </div>
@@ -178,7 +178,7 @@ export default function ChatCoach() {
                         <button
                           key={action.id}
                           onClick={() => navigateTo(action.section)}
-                          className="inline-flex items-center gap-1 rounded-lg bg-white border border-gray-200 px-3 py-1.5 text-xs font-medium text-indigo-600 hover:bg-indigo-50 hover:border-indigo-200 transition-colors"
+                          className="inline-flex items-center gap-1 rounded-xl bg-white border border-[#ebebeb] px-3 py-1.5 text-xs font-medium text-[#0c0c1d] hover:bg-[#f5f5f5] hover:border-[#d4d4d4] transition-colors"
                         >
                           {action.label} <ArrowRight className="h-3 w-3" />
                         </button>
@@ -194,13 +194,13 @@ export default function ChatCoach() {
               <div className="flex justify-start">
                 <div>
                   <div className="flex items-center gap-1.5 mb-1">
-                    <Sparkles className="h-3 w-3 text-indigo-500" />
-                    <span className="text-xs font-medium text-indigo-600">CareerAI</span>
+                    <Sparkles className="h-3 w-3 text-[#0c0c1d]" />
+                    <span className="text-xs font-medium text-[#0c0c1d]">CareerAI</span>
                   </div>
-                  <div className="bg-gray-50 rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-1.5 border border-gray-100">
-                    <div className="h-2 w-2 rounded-full bg-gray-400 typing-dot" />
-                    <div className="h-2 w-2 rounded-full bg-gray-400 typing-dot" />
-                    <div className="h-2 w-2 rounded-full bg-gray-400 typing-dot" />
+                  <div className="bg-[#f7f7f8] rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-1.5 border border-[#f0f0f0]">
+                    <div className="h-2 w-2 rounded-full bg-[#737373] typing-dot" />
+                    <div className="h-2 w-2 rounded-full bg-[#737373] typing-dot" />
+                    <div className="h-2 w-2 rounded-full bg-[#737373] typing-dot" />
                   </div>
                 </div>
               </div>
@@ -211,7 +211,7 @@ export default function ChatCoach() {
       </div>
 
       {/* Input Bar */}
-      <div className="border-t border-gray-100 pt-4 mt-auto">
+      <div className="border-t border-[#f0f0f0] pt-4 mt-auto">
         <div className="flex gap-2">
           <input
             type="text"
