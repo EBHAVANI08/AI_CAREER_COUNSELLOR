@@ -66,8 +66,8 @@ export default function CareerPathPage() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
-        <button onClick={goBack} className="btn-ghost py-1.5 px-3">
-          <ArrowLeft className="h-4 w-4" /> Back
+        <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+          <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
         </button>
         <h1 className="section-title">Career Roadmap</h1>
       </div>
@@ -80,13 +80,13 @@ export default function CareerPathPage() {
             value={roleInput}
             onChange={(e) => setRoleInput(e.target.value)}
             placeholder="Enter target role (e.g., Full Stack Developer, Data Scientist)"
-            className="input-field flex-1"
+            className="premium-input flex-1"
             onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
           />
           <button
             onClick={handleGenerate}
             disabled={!roleInput.trim() || loading}
-            className="btn-primary whitespace-nowrap"
+            className="premium-btn whitespace-nowrap"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Map className="h-4 w-4" />}
             {loading ? 'Generating...' : 'Generate Roadmap'}
@@ -94,7 +94,7 @@ export default function CareerPathPage() {
         </div>
         {targetRole && (
           <p className="text-xs text-gray-500 mt-2">
-            Current target: <span className="font-medium text-violet-600">{targetRole}</span>
+            Current target: <span className="font-medium text-indigo-600">{targetRole}</span>
           </p>
         )}
       </div>
@@ -106,11 +106,11 @@ export default function CareerPathPage() {
             <span className="text-sm font-semibold text-gray-700">
               Progress: {completedCount}/{careerPath.length} steps completed
             </span>
-            <span className="text-sm font-bold text-violet-600">{progressPct}%</span>
+            <span className="text-sm font-bold text-indigo-600">{progressPct}%</span>
           </div>
-          <div className="h-3 rounded-full bg-gray-100 overflow-hidden">
+          <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
             <div
-              className="h-full rounded-full bg-violet-500 transition-all duration-500"
+              className="h-full rounded-full bg-indigo-500 transition-all duration-500"
               style={{ width: `${progressPct}%` }}
             />
           </div>
@@ -132,8 +132,8 @@ export default function CareerPathPage() {
                     onClick={() => toggleStepComplete(step.id)}
                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 transition-all z-10 ${
                       step.completed
-                        ? 'border-green-500 bg-green-500 text-white'
-                        : 'border-gray-300 bg-white text-gray-400 hover:border-violet-400'
+                        ? 'border-emerald-500 bg-emerald-500 text-white'
+                        : 'border-gray-300 bg-white text-gray-400 hover:border-indigo-400'
                     }`}
                   >
                     {step.completed ? (
@@ -143,7 +143,7 @@ export default function CareerPathPage() {
                     )}
                   </button>
                   {!isLast && (
-                    <div className={`w-0.5 flex-1 min-h-8 ${step.completed ? 'bg-green-300' : 'bg-gray-200'}`} />
+                    <div className={`w-0.5 flex-1 min-h-8 ${step.completed ? 'bg-emerald-300' : 'bg-gray-200'}`} />
                   )}
                 </div>
 
@@ -152,20 +152,20 @@ export default function CareerPathPage() {
                   <div
                     className={`rounded-xl border p-4 transition-all cursor-pointer ${
                       step.completed
-                        ? 'border-green-200 bg-green-50/50'
+                        ? 'border-emerald-200 bg-emerald-50/30'
                         : isExpanded
-                        ? 'border-violet-300 bg-violet-50/30 shadow-sm'
-                        : 'border-gray-200 bg-white hover:border-violet-200'
+                        ? 'border-indigo-200 bg-indigo-50/20 shadow-sm'
+                        : 'border-gray-200/80 bg-white hover:border-gray-300'
                     }`}
                     onClick={() => toggleExpand(step.id)}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <h3 className={`text-sm font-bold ${step.completed ? 'text-green-700' : 'text-gray-900'}`}>
+                          <h3 className={`text-sm font-bold ${step.completed ? 'text-emerald-700' : 'text-gray-900'}`}>
                             {step.title}
                           </h3>
-                          <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-700">
+                          <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700 border border-indigo-100">
                             {step.timeline}
                           </span>
                         </div>
@@ -186,7 +186,7 @@ export default function CareerPathPage() {
                             <span className="text-xs font-semibold text-gray-500">Skills:</span>
                             <div className="flex flex-wrap gap-1.5 mt-1">
                               {step.skills.map(skill => (
-                                <span key={skill} className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">
+                                <span key={skill} className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 border border-blue-100">
                                   {skill}
                                 </span>
                               ))}
@@ -201,7 +201,7 @@ export default function CareerPathPage() {
                             <ul className="mt-1 space-y-1">
                               {step.milestones.map((m, i) => (
                                 <li key={i} className="flex items-start gap-2 text-xs text-gray-600">
-                                  <Target className="h-3 w-3 text-violet-500 shrink-0 mt-0.5" />
+                                  <Target className="h-3 w-3 text-indigo-500 shrink-0 mt-0.5" />
                                   {m}
                                 </li>
                               ))}
@@ -234,10 +234,10 @@ export default function CareerPathPage() {
       ) : !loading ? (
         /* Empty State */
         <div className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100 mb-4">
-            <Map className="h-8 w-8 text-gray-400" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-50 mb-4 border border-gray-100">
+            <Map className="h-7 w-7 text-gray-400" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-1">No roadmap yet</h3>
+          <h3 className="text-base font-semibold text-gray-900 mb-1">No roadmap yet</h3>
           <p className="text-sm text-gray-500 max-w-sm">
             Enter your target role above and generate a personalized career roadmap with step-by-step guidance.
           </p>

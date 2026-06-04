@@ -112,8 +112,8 @@ export default function MBTIAssessment() {
     return (
       <div className="space-y-6 animate-fade-in">
         <div className="flex items-center gap-3">
-          <button onClick={goBack} className="btn-ghost py-1.5 px-3">
-            <ArrowLeft className="h-4 w-4" /> Back
+          <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+            <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
           </button>
           <h1 className="section-title">MBTI Results</h1>
         </div>
@@ -121,35 +121,35 @@ export default function MBTIAssessment() {
         {/* Type Card */}
         <div className="ai-card">
           <div className="text-center">
-            <div className="text-4xl font-bold text-violet-700 mb-2">{mbtiResult.type}</div>
-            <div className="text-lg font-semibold text-gray-900 mb-2">{desc.title}</div>
-            <p className="text-sm text-gray-600">{desc.description}</p>
+            <div className="text-4xl font-bold text-indigo-600 mb-2 tracking-tight">{mbtiResult.type}</div>
+            <div className="text-lg font-semibold text-gray-900 mb-2 tracking-tight">{desc.title}</div>
+            <p className="text-sm text-gray-600 leading-relaxed">{desc.description}</p>
           </div>
         </div>
 
         {/* Dimension Sliders */}
         <div className="card">
-          <h3 className="text-sm font-semibold text-gray-500 mb-4">Your Dimensions</h3>
-          <div className="space-y-4">
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Your Dimensions</h3>
+          <div className="space-y-5">
             {sliders.map((s) => {
               const leftPct = Math.round((s.leftVal / (s.leftVal + s.rightVal || 1)) * 100);
               return (
                 <div key={s.left}>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className={`font-medium ${leftPct > 50 ? 'text-violet-700' : 'text-gray-500'}`}>
+                  <div className="flex justify-between text-xs mb-1.5">
+                    <span className={`font-medium ${leftPct > 50 ? 'text-indigo-700' : 'text-gray-500'}`}>
                       {s.left} — {s.leftLabel}
                     </span>
-                    <span className={`font-medium ${leftPct < 50 ? 'text-violet-700' : 'text-gray-500'}`}>
+                    <span className={`font-medium ${leftPct < 50 ? 'text-indigo-700' : 'text-gray-500'}`}>
                       {s.right} — {s.rightLabel}
                     </span>
                   </div>
-                  <div className="relative h-3 rounded-full bg-gray-100 overflow-hidden">
+                  <div className="relative h-2 rounded-full bg-gray-100 overflow-hidden">
                     <div
-                      className="h-full rounded-l-full bg-violet-500 transition-all duration-500"
+                      className="h-full rounded-l-full bg-indigo-500 transition-all duration-500"
                       style={{ width: `${leftPct}%` }}
                     />
                   </div>
-                  <div className="flex justify-between text-xs text-gray-400 mt-0.5">
+                  <div className="flex justify-between text-xs text-gray-400 mt-1">
                     <span>{leftPct}%</span>
                     <span>{100 - leftPct}%</span>
                   </div>
@@ -162,18 +162,18 @@ export default function MBTIAssessment() {
         {/* Strengths & Careers */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="card">
-            <h3 className="text-sm font-semibold text-gray-500 mb-3">Strengths</h3>
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Strengths</h3>
             <div className="flex flex-wrap gap-2">
               {desc.strengths.map(s => (
-                <span key={s} className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">{s}</span>
+                <span key={s} className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 border border-emerald-100">{s}</span>
               ))}
             </div>
           </div>
           <div className="card">
-            <h3 className="text-sm font-semibold text-gray-500 mb-3">Career Matches</h3>
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Career Matches</h3>
             <div className="flex flex-wrap gap-2">
               {desc.careers.map(c => (
-                <span key={c} className="rounded-full bg-violet-100 px-3 py-1 text-xs font-medium text-violet-700">{c}</span>
+                <span key={c} className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700 border border-indigo-100">{c}</span>
               ))}
             </div>
           </div>
@@ -181,16 +181,16 @@ export default function MBTIAssessment() {
 
         {/* AI Analysis */}
         <div className="card">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3 flex items-center gap-2">
-            <Brain className="h-4 w-4 text-violet-500" /> AI Analysis
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <Brain className="h-4 w-4 text-indigo-500" /> AI Analysis
           </h3>
           {analysis ? (
-            <p className="text-sm text-gray-700">{analysis}</p>
+            <p className="text-sm text-gray-700 leading-relaxed">{analysis}</p>
           ) : (
             <button
               onClick={handleGetAIAnalysis}
               disabled={analysisLoading}
-              className="btn-primary text-sm"
+              className="premium-btn text-sm"
             >
               {analysisLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Brain className="h-4 w-4" />}
               {analysisLoading ? 'Analyzing...' : 'Get AI Analysis'}
@@ -207,8 +207,8 @@ export default function MBTIAssessment() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
-        <button onClick={goBack} className="btn-ghost py-1.5 px-3">
-          <ArrowLeft className="h-4 w-4" /> Back
+        <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+          <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
         </button>
         <span className="text-sm text-gray-500">Question {currentQ + 1} of {totalQuestions}</span>
       </div>
@@ -219,9 +219,9 @@ export default function MBTIAssessment() {
       </div>
 
       {/* Progress Bar */}
-      <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+      <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
         <div
-          className="h-full rounded-full bg-violet-500 transition-all duration-300"
+          className="h-full rounded-full bg-indigo-500 transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -237,14 +237,14 @@ export default function MBTIAssessment() {
               <button
                 key={choice}
                 onClick={() => handleAnswer(choice as 'A' | 'B')}
-                className={`w-full flex items-center gap-3 rounded-lg border-2 p-4 text-left transition-all ${
+                className={`w-full flex items-center gap-3 rounded-lg border p-4 text-left transition-all ${
                   isSelected
-                    ? 'border-violet-500 bg-violet-50 text-violet-700'
-                    : 'border-gray-200 bg-white text-gray-700 hover:border-violet-200 hover:bg-violet-50/50'
+                    ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
+                    : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                  isSelected ? 'bg-violet-600 text-white' : 'bg-gray-100 text-gray-500'
+                  isSelected ? 'bg-indigo-500 text-white' : 'bg-gray-50 text-gray-500 border border-gray-200'
                 }`}>
                   {choice}
                 </div>
@@ -270,22 +270,22 @@ export default function MBTIAssessment() {
             <button
               key={i}
               onClick={() => setCurrentQ(i)}
-              className={`h-2 w-2 rounded-full transition-all ${
-                i === currentQ ? 'bg-violet-500 w-4' : answers[i] !== undefined ? 'bg-violet-300' : 'bg-gray-200'
+              className={`h-1.5 rounded-full transition-all ${
+                i === currentQ ? 'bg-indigo-500 w-4' : answers[i] !== undefined ? 'bg-indigo-300' : 'bg-gray-200'
               }`}
             />
           ))}
         </div>
 
         {isFinished ? (
-          <button onClick={calculateResults} className="btn-primary">
+          <button onClick={calculateResults} className="premium-btn">
             See Results <CheckCircle2 className="h-4 w-4" />
           </button>
         ) : (
           <button
             onClick={() => setCurrentQ(Math.min(totalQuestions - 1, currentQ + 1))}
             disabled={answers[currentQ] === undefined}
-            className="btn-primary"
+            className="premium-btn"
           >
             Next <ArrowRight className="h-4 w-4" />
           </button>

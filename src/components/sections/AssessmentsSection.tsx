@@ -42,9 +42,9 @@ const assessmentTheoryDetails: Record<string, { theory: string; methodology: str
     sampleQuestion: "'At a social gathering, you typically: A) Engage with many people, including strangers OR B) Talk with a few people you already know'"
   },
   careerQuiz: {
-    theory: "Our Career Field Quiz is based on the Theory of Work Adjustment (Dawis & Lofquist, 1984) which proposes that career satisfaction depends on the match between an individual's abilities/interests and job requirements/reinforcers. The quiz maps interests to specific career fields in the Indian market.",
+    theory: "Our Career Field Quiz is based on the Theory of Work Adjustment (Dawis & Lofquist, 1984) which proposes that career satisfaction depends on the match between an individual's abilities/interests and job requirements/reinforcers. The quiz maps interests to specific career fields in the market.",
     methodology: "Uses situational preference questions where you choose between real-world scenarios aligned with different career fields (Technology, AI/ML, Design, Finance, Healthcare, Product Management). Results show your top 3 matching fields with percentage alignment based on response patterns.",
-    measures: "Measures your interest alignment with 6 high-growth career fields in India: Software & IT, AI & Machine Learning, Product Management, UX/UI Design, Finance & Fintech, and Healthcare & Biotech.",
+    measures: "Measures your interest alignment with 6 high-growth career fields: Software & IT, AI & Machine Learning, Product Management, UX/UI Design, Finance & Fintech, and Healthcare & Biotech.",
     sampleQuestion: "'Which work environment excites you the most? A) A tech startup building the next big app, B) A research lab pushing the boundaries of AI, C) A design studio creating beautiful products, D) A hospital or biotech company saving lives'"
   }
 };
@@ -58,8 +58,8 @@ export default function AssessmentsSection() {
       id: 'riasec',
       name: 'RIASEC Personality Assessment',
       icon: Target,
-      color: 'text-violet-600',
-      bgColor: 'bg-violet-100',
+      color: 'text-indigo-500',
+      bgColor: 'bg-indigo-50',
       description: 'Discover your career personality type based on Holland\'s theory of vocational choice. Find careers that match your natural work preferences.',
       theory: "Based on John Holland's Theory of Career Choice (1959)",
       accuracy: 'Validated across 50+ countries with 85%+ accuracy',
@@ -73,8 +73,8 @@ export default function AssessmentsSection() {
       id: 'mbti',
       name: 'MBTI Personality Assessment',
       icon: Brain,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-100',
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-50',
       description: 'Understand your work personality through the Myers-Briggs framework. Discover how your cognitive preferences shape your ideal career.',
       theory: 'Based on Carl Jung\'s psychological types (1921), adapted by Myers & Briggs (1943)',
       accuracy: 'Used by 88 of Fortune 100 companies, validated with millions of respondents',
@@ -88,11 +88,11 @@ export default function AssessmentsSection() {
       id: 'career-quiz',
       name: 'Career Field Quiz',
       icon: BarChart3,
-      color: 'text-fuchsia-600',
-      bgColor: 'bg-fuchsia-100',
-      description: 'Find your ideal career field among India\'s highest-growth sectors. Discover which industry matches your interests and values.',
+      color: 'text-emerald-500',
+      bgColor: 'bg-emerald-50',
+      description: 'Find your ideal career field among highest-growth sectors. Discover which industry matches your interests and values.',
       theory: 'Based on Theory of Work Adjustment (Dawis & Lofquist, 1984)',
-      accuracy: 'Aligned with Indian market data, 80%+ field-match accuracy',
+      accuracy: 'Aligned with market data, 80%+ field-match accuracy',
       timeRequired: '8-10 minutes',
       numQuestions: 10,
       section: 'career-quiz',
@@ -117,27 +117,27 @@ export default function AssessmentsSection() {
         {assessments.map((assessment) => (
           <div
             key={assessment.id}
-            className="relative group rounded-2xl border-2 border-gray-200 bg-white p-6 transition-all hover:border-violet-300 hover:shadow-lg hover:shadow-violet-50"
+            className="group relative rounded-xl border border-gray-200/80 bg-white p-6 transition-all duration-200 hover:border-gray-300 hover:shadow-md hover:-translate-y-0.5"
           >
             {/* Icon & Status */}
             <div className="flex items-start justify-between mb-4">
-              <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${assessment.bgColor} ${assessment.color}`}>
-                <assessment.icon className="h-6 w-6" />
+              <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${assessment.bgColor} ${assessment.color}`}>
+                <assessment.icon className="h-5 w-5" />
               </div>
               {assessment.status === 'completed' ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700">
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-600 border border-emerald-100">
                   <CheckCircle2 className="h-3 w-3" /> Done
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-500">
+                <span className="inline-flex items-center gap-1 rounded-full bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-500 border border-gray-100">
                   <Circle className="h-3 w-3" /> Not Started
                 </span>
               )}
             </div>
 
             {/* Name */}
-            <h3 className="text-base font-bold text-gray-900 mb-1.5">{assessment.name}</h3>
-            <p className="text-xs text-gray-500 mb-3 line-clamp-3">{assessment.description}</p>
+            <h3 className="text-base font-bold text-gray-900 mb-1.5 tracking-tight">{assessment.name}</h3>
+            <p className="text-xs text-gray-500 mb-4 line-clamp-3 leading-relaxed">{assessment.description}</p>
 
             {/* Meta Info */}
             <div className="space-y-1.5 mb-4">
@@ -146,19 +146,19 @@ export default function AssessmentsSection() {
                 <span className="line-clamp-1">{assessment.theory}</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-gray-500">
-                <Shield className="h-3.5 w-3.5 text-green-500" />
+                <Shield className="h-3.5 w-3.5 text-emerald-500" />
                 <span>{assessment.accuracy}</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-gray-500">
                 <Clock className="h-3.5 w-3.5 text-gray-400" />
-                <span>{assessment.timeRequired} • {assessment.numQuestions} questions</span>
+                <span>{assessment.timeRequired} &middot; {assessment.numQuestions} questions</span>
               </div>
             </div>
 
             {/* Result Preview */}
             {assessment.resultPreview && (
-              <div className="mb-3 p-2 rounded-lg bg-green-50 border border-green-100">
-                <span className="text-xs font-medium text-green-700">{assessment.resultPreview}</span>
+              <div className="mb-4 p-2.5 rounded-lg bg-emerald-50 border border-emerald-100">
+                <span className="text-xs font-medium text-emerald-700">{assessment.resultPreview}</span>
               </div>
             )}
 
@@ -166,10 +166,10 @@ export default function AssessmentsSection() {
             <div className="flex gap-2">
               <button
                 onClick={() => store.navigateTo(assessment.section)}
-                className={`flex-1 flex items-center justify-center gap-1 rounded-lg py-2 text-sm font-semibold transition-all ${
+                className={`flex-1 flex items-center justify-center gap-1 rounded-lg py-2.5 text-sm font-medium transition-all ${
                   assessment.status === 'completed'
-                    ? 'bg-violet-100 text-violet-700 hover:bg-violet-200'
-                    : 'bg-violet-600 text-white hover:bg-violet-700'
+                    ? 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100 border border-indigo-100'
+                    : 'bg-indigo-500 text-white hover:bg-indigo-600'
                 }`}
               >
                 {assessment.status === 'completed' ? (
@@ -180,7 +180,7 @@ export default function AssessmentsSection() {
               </button>
               <button
                 onClick={() => setSelectedTheory(assessment.id)}
-                className="flex items-center justify-center gap-1 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all"
+                className="flex items-center justify-center gap-1 rounded-lg border border-gray-200 px-3 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-50 hover:border-gray-300 transition-all"
               >
                 <Lightbulb className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Theory</span>
@@ -192,30 +192,30 @@ export default function AssessmentsSection() {
 
       {/* Assessment Summary */}
       {completedCount > 0 && (
-        <div className="rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 to-purple-50 p-6">
-          <h3 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-violet-500" />
+        <div className="ai-card">
+          <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-indigo-500" />
             Your Assessment Summary
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {store.riasecResult && (
-              <div className="p-3 rounded-xl bg-white/80">
-                <div className="text-xs font-semibold text-violet-600 mb-1">RIASEC</div>
-                <div className="text-lg font-bold text-gray-900">{store.riasecResult.topTwoCode}</div>
+              <div className="p-3 rounded-xl bg-gray-50 border border-gray-100">
+                <div className="text-xs font-semibold text-indigo-600 mb-1">RIASEC</div>
+                <div className="text-lg font-bold text-gray-900 tracking-tight">{store.riasecResult.topTwoCode}</div>
                 <div className="text-xs text-gray-500">Top: {store.riasecResult.topCode}</div>
               </div>
             )}
             {store.mbtiResult && (
-              <div className="p-3 rounded-xl bg-white/80">
-                <div className="text-xs font-semibold text-purple-600 mb-1">MBTI</div>
-                <div className="text-lg font-bold text-gray-900">{store.mbtiResult.type}</div>
+              <div className="p-3 rounded-xl bg-gray-50 border border-gray-100">
+                <div className="text-xs font-semibold text-blue-600 mb-1">MBTI</div>
+                <div className="text-lg font-bold text-gray-900 tracking-tight">{store.mbtiResult.type}</div>
                 <div className="text-xs text-gray-500">Personality type</div>
               </div>
             )}
             {store.careerQuizResult && store.careerQuizResult.topFields.length > 0 && (
-              <div className="p-3 rounded-xl bg-white/80">
-                <div className="text-xs font-semibold text-fuchsia-600 mb-1">Career Field</div>
-                <div className="text-lg font-bold text-gray-900">{store.careerQuizResult.topFields[0].field}</div>
+              <div className="p-3 rounded-xl bg-gray-50 border border-gray-100">
+                <div className="text-xs font-semibold text-emerald-600 mb-1">Career Field</div>
+                <div className="text-lg font-bold text-gray-900 tracking-tight">{store.careerQuizResult.topFields[0].field}</div>
                 <div className="text-xs text-gray-500">{store.careerQuizResult.topFields[0].matchPercentage}% match</div>
               </div>
             )}
@@ -233,7 +233,7 @@ export default function AssessmentsSection() {
       <Dialog open={!!selectedTheory} onOpenChange={(open) => !open && setSelectedTheory(null)}>
         <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-lg font-bold">
+            <DialogTitle className="text-lg font-bold tracking-tight">
               {selectedTheory === 'riasec' ? 'RIASEC Theory' :
                selectedTheory === 'mbti' ? 'MBTI Theory' : 'Career Field Quiz Theory'}
             </DialogTitle>
@@ -242,7 +242,7 @@ export default function AssessmentsSection() {
             <div className="space-y-4 mt-2">
               <div>
                 <h4 className="text-sm font-semibold text-gray-900 mb-1 flex items-center gap-1.5">
-                  <BookOpen className="h-4 w-4 text-violet-500" /> Scientific Theory
+                  <BookOpen className="h-4 w-4 text-indigo-500" /> Scientific Theory
                 </h4>
                 <p className="text-sm text-gray-600">{assessmentTheoryDetails[selectedTheory].theory}</p>
               </div>
@@ -254,7 +254,7 @@ export default function AssessmentsSection() {
               </div>
               <div>
                 <h4 className="text-sm font-semibold text-gray-900 mb-1 flex items-center gap-1.5">
-                  <Target className="h-4 w-4 text-green-500" /> What It Measures
+                  <Target className="h-4 w-4 text-emerald-500" /> What It Measures
                 </h4>
                 <p className="text-sm text-gray-600">{assessmentTheoryDetails[selectedTheory].measures}</p>
               </div>
@@ -262,7 +262,7 @@ export default function AssessmentsSection() {
                 <h4 className="text-sm font-semibold text-gray-900 mb-1 flex items-center gap-1.5">
                   <Lightbulb className="h-4 w-4 text-amber-500" /> Sample Question
                 </h4>
-                <div className="p-3 rounded-lg bg-gray-50 text-sm text-gray-700 italic">
+                <div className="p-3 rounded-lg bg-gray-50 text-sm text-gray-700 italic border border-gray-100">
                   {assessmentTheoryDetails[selectedTheory].sampleQuestion}
                 </div>
               </div>
@@ -273,7 +273,7 @@ export default function AssessmentsSection() {
                   store.navigateTo(section);
                   setSelectedTheory(null);
                 }}
-                className="w-full btn-primary"
+                className="premium-btn w-full"
               >
                 Start Assessment <ArrowRight className="h-4 w-4" />
               </button>

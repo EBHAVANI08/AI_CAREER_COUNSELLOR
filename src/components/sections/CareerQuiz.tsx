@@ -102,8 +102,8 @@ export default function CareerQuiz() {
     return (
       <div className="space-y-6 animate-fade-in">
         <div className="flex items-center gap-3">
-          <button onClick={goBack} className="btn-ghost py-1.5 px-3">
-            <ArrowLeft className="h-4 w-4" /> Back
+          <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+            <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
           </button>
           <h1 className="section-title">Career Quiz Results</h1>
         </div>
@@ -117,36 +117,36 @@ export default function CareerQuiz() {
             return (
               <div key={field.field} className={isTop ? 'ai-card' : 'card'}>
                 <div className="flex items-start gap-4">
-                  <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-lg font-bold ${
-                    isTop ? 'bg-violet-600 text-white' : 'bg-gray-100 text-gray-500'
+                  <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-sm font-bold ${
+                    isTop ? 'bg-indigo-500 text-white' : 'bg-gray-100 text-gray-500'
                   }`}>
                     #{i + 1}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-lg font-bold text-gray-900">{fieldData.name}</h3>
-                      <span className="text-sm font-semibold text-violet-600">{field.matchPercentage}% match</span>
+                      <h3 className="text-lg font-bold text-gray-900 tracking-tight">{fieldData.name}</h3>
+                      <span className="text-sm font-semibold text-indigo-600">{field.matchPercentage}% match</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-gray-500 mb-3">
-                      <TrendingUp className="h-3 w-3 text-green-500" /> {fieldData.growthPercent}% growth
-                      <span>•</span>
+                      <TrendingUp className="h-3 w-3 text-emerald-500" /> {fieldData.growthPercent}% growth
+                      <span>&middot;</span>
                       <span>{fieldData.demandLevel} demand</span>
                     </div>
                     <div className="mb-3">
-                      <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+                      <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
                         <div
-                          className="h-full rounded-full bg-violet-500 animate-progress"
+                          className="h-full rounded-full bg-indigo-500 animate-progress"
                           style={{ width: `${field.matchPercentage}%` }}
                         />
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-1.5 mb-2">
                       {fieldData.hotRoles.slice(0, 3).map(role => (
-                        <span key={role} className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-700">{role}</span>
+                        <span key={role} className="rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700 border border-indigo-100">{role}</span>
                       ))}
                     </div>
                     <div className="text-xs text-gray-500">
-                      💰 {fieldData.salaryRanges.entry} (Entry) • {fieldData.salaryRanges.mid} (Mid) • {fieldData.salaryRanges.senior} (Senior)
+                      {fieldData.salaryRanges.entry} (Entry) &middot; {fieldData.salaryRanges.mid} (Mid) &middot; {fieldData.salaryRanges.senior} (Senior)
                     </div>
                   </div>
                 </div>
@@ -157,8 +157,8 @@ export default function CareerQuiz() {
 
         {/* All Field Scores */}
         <div className="card">
-          <h3 className="text-sm font-semibold text-gray-500 mb-4">All Field Scores</h3>
-          <div className="space-y-2">
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">All Field Scores</h3>
+          <div className="space-y-2.5">
             {Object.entries(careerQuizResult.fieldScores)
               .sort((a, b) => b[1] - a[1])
               .map(([field, score]) => {
@@ -166,8 +166,8 @@ export default function CareerQuiz() {
                 return (
                   <div key={field} className="flex items-center gap-3">
                     <span className="text-xs font-medium text-gray-600 w-24 truncate">{fd?.name || field}</span>
-                    <div className="flex-1 h-2 rounded-full bg-gray-100 overflow-hidden">
-                      <div className="h-full rounded-full bg-violet-400" style={{ width: `${Math.min(score * 1.5, 100)}%` }} />
+                    <div className="flex-1 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                      <div className="h-full rounded-full bg-indigo-400" style={{ width: `${Math.min(score * 1.5, 100)}%` }} />
                     </div>
                     <span className="text-xs font-semibold text-gray-500 w-8 text-right">{score}%</span>
                   </div>
@@ -178,16 +178,16 @@ export default function CareerQuiz() {
 
         {/* AI Analysis */}
         <div className="card">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3 flex items-center gap-2">
-            <Brain className="h-4 w-4 text-violet-500" /> AI Analysis
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <Brain className="h-4 w-4 text-indigo-500" /> AI Analysis
           </h3>
           {analysis ? (
-            <p className="text-sm text-gray-700">{analysis}</p>
+            <p className="text-sm text-gray-700 leading-relaxed">{analysis}</p>
           ) : (
             <button
               onClick={handleGetAIAnalysis}
               disabled={analysisLoading}
-              className="btn-primary text-sm"
+              className="premium-btn text-sm"
             >
               {analysisLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Brain className="h-4 w-4" />}
               {analysisLoading ? 'Analyzing...' : 'Get AI Analysis'}
@@ -204,8 +204,8 @@ export default function CareerQuiz() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
-        <button onClick={goBack} className="btn-ghost py-1.5 px-3">
-          <ArrowLeft className="h-4 w-4" /> Back
+        <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+          <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
         </button>
         <span className="text-sm text-gray-500">Question {currentQ + 1} of {totalQuestions}</span>
       </div>
@@ -216,9 +216,9 @@ export default function CareerQuiz() {
       </div>
 
       {/* Progress Bar */}
-      <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+      <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
         <div
-          className="h-full rounded-full bg-violet-500 transition-all duration-300"
+          className="h-full rounded-full bg-indigo-500 transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -233,18 +233,18 @@ export default function CareerQuiz() {
               <button
                 key={i}
                 onClick={() => handleAnswer(i)}
-                className={`flex items-start gap-3 rounded-lg border-2 p-4 text-left transition-all ${
+                className={`flex items-start gap-3 rounded-lg border p-4 text-left transition-all ${
                   isSelected
-                    ? 'border-violet-500 bg-violet-50'
-                    : 'border-gray-200 bg-white hover:border-violet-200 hover:bg-violet-50/50'
+                    ? 'border-indigo-500 bg-indigo-50'
+                    : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                  isSelected ? 'bg-violet-600 text-white' : 'bg-gray-100 text-gray-500'
+                  isSelected ? 'bg-indigo-500 text-white' : 'bg-gray-50 text-gray-500 border border-gray-200'
                 }`}>
                   {String.fromCharCode(65 + i)}
                 </div>
-                <span className={`text-sm font-medium ${isSelected ? 'text-violet-700' : 'text-gray-700'}`}>
+                <span className={`text-sm font-medium ${isSelected ? 'text-indigo-700' : 'text-gray-700'}`}>
                   {option.text}
                 </span>
               </button>
@@ -268,22 +268,22 @@ export default function CareerQuiz() {
             <button
               key={i}
               onClick={() => setCurrentQ(i)}
-              className={`h-2 w-2 rounded-full transition-all ${
-                i === currentQ ? 'bg-violet-500 w-4' : answers[i] !== undefined ? 'bg-violet-300' : 'bg-gray-200'
+              className={`h-1.5 rounded-full transition-all ${
+                i === currentQ ? 'bg-indigo-500 w-4' : answers[i] !== undefined ? 'bg-indigo-300' : 'bg-gray-200'
               }`}
             />
           ))}
         </div>
 
         {isFinished ? (
-          <button onClick={calculateResults} className="btn-primary">
+          <button onClick={calculateResults} className="premium-btn">
             See Results <CheckCircle2 className="h-4 w-4" />
           </button>
         ) : (
           <button
             onClick={() => setCurrentQ(Math.min(totalQuestions - 1, currentQ + 1))}
             disabled={answers[currentQ] === undefined}
-            className="btn-primary"
+            className="premium-btn"
           >
             Next <ArrowRight className="h-4 w-4" />
           </button>

@@ -44,7 +44,7 @@ export default function MarketInsights() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-violet-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-indigo-500" />
       </div>
     );
   }
@@ -52,23 +52,23 @@ export default function MarketInsights() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
-        <button onClick={() => navigateTo('dashboard')} className="btn-ghost py-1.5 px-3">
-          <ArrowLeft className="h-4 w-4" /> Dashboard
+        <button onClick={() => navigateTo('dashboard')} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+          <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
         </button>
         <h1 className="section-title">Market Insights</h1>
       </div>
 
-      <p className="section-subtitle">Indian job market intelligence for informed career decisions</p>
+      <p className="section-subtitle">Job market intelligence for informed career decisions</p>
 
       {/* Tab Navigation */}
-      <div className="flex gap-1 overflow-x-auto pb-2 border-b border-gray-200">
+      <div className="flex gap-1 overflow-x-auto pb-2 border-b border-gray-100">
         {tabs.map(tab => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key as any)}
             className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-all ${
               activeTab === tab.key
-                ? 'bg-violet-100 text-violet-700'
+                ? 'bg-indigo-50 text-indigo-700 border-b-2 border-indigo-500'
                 : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
             }`}
           >
@@ -84,8 +84,8 @@ export default function MarketInsights() {
           {Object.entries(d.careerFields).map(([key, field]: [string, any]) => (
             <div key={key} className="card-hover">
               <div className="flex items-start justify-between mb-2">
-                <h3 className="text-sm font-bold text-gray-900">{field.name}</h3>
-                <span className="flex items-center gap-0.5 text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                <h3 className="text-sm font-semibold text-gray-900">{field.name}</h3>
+                <span className="flex items-center gap-0.5 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
                   <TrendingUp className="h-3 w-3" /> {field.growthPercent}%
                 </span>
               </div>
@@ -104,7 +104,7 @@ export default function MarketInsights() {
                 <span className="text-xs font-medium text-gray-500">Hot Roles:</span>
                 <div className="flex flex-wrap gap-1 mt-1">
                   {field.hotRoles.slice(0, 3).map((role: string) => (
-                    <span key={role} className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-700">{role}</span>
+                    <span key={role} className="rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700 border border-indigo-100">{role}</span>
                   ))}
                 </div>
               </div>
@@ -113,7 +113,7 @@ export default function MarketInsights() {
                 <span className="text-xs font-medium text-gray-500">Top Companies:</span>
                 <div className="flex flex-wrap gap-1 mt-1">
                   {field.topCompanies.slice(0, 4).map((company: string) => (
-                    <span key={company} className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600">{company}</span>
+                    <span key={company} className="rounded bg-gray-50 px-2 py-0.5 text-xs text-gray-600 border border-gray-100">{company}</span>
                   ))}
                 </div>
               </div>
@@ -124,11 +124,11 @@ export default function MarketInsights() {
 
       {activeTab === 'skills' && (
         <div className="card">
-          <h3 className="text-sm font-semibold text-gray-500 mb-4">In-Demand Skills (Indian Market 2024-25)</h3>
-          <div className="space-y-3">
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">In-Demand Skills</h3>
+          <div className="space-y-2.5">
             {d.inDemandSkills.map((skill: any, i: number) => (
               <div key={i} className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-violet-100 text-sm font-bold text-violet-600">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-sm font-bold text-indigo-600">
                   {i + 1}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -137,7 +137,7 @@ export default function MarketInsights() {
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-gray-500">{skill.category}</span>
                       {skill.trend === 'up' ? (
-                        <TrendingUp className="h-3 w-3 text-green-500" />
+                        <TrendingUp className="h-3 w-3 text-emerald-500" />
                       ) : skill.trend === 'down' ? (
                         <TrendingDown className="h-3 w-3 text-red-500" />
                       ) : (
@@ -145,14 +145,14 @@ export default function MarketInsights() {
                       )}
                     </div>
                   </div>
-                  <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+                  <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-violet-500 animate-progress"
+                      className="h-full rounded-full bg-indigo-500 animate-progress"
                       style={{ width: `${skill.demand}%` }}
                     />
                   </div>
                 </div>
-                <span className="text-sm font-bold text-violet-600 w-10 text-right">{skill.demand}%</span>
+                <span className="text-sm font-bold text-indigo-600 w-10 text-right">{skill.demand}%</span>
               </div>
             ))}
           </div>
@@ -164,12 +164,12 @@ export default function MarketInsights() {
           {/* Engineering */}
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-              <Building2 className="h-4 w-4 text-violet-500" /> Engineering Colleges
+              <Building2 className="h-4 w-4 text-indigo-500" /> Engineering Colleges
             </h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-gray-200">
+                  <tr className="border-b border-gray-100">
                     <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">NIRF</th>
                     <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">Institute</th>
                     <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">Location</th>
@@ -179,14 +179,14 @@ export default function MarketInsights() {
                 </thead>
                 <tbody>
                   {d.topInstitutions.engineering.map((inst: any) => (
-                    <tr key={inst.name} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-2 px-3 font-bold text-violet-600">#{inst.nirf}</td>
+                    <tr key={inst.name} className="border-b border-gray-50 hover:bg-gray-50">
+                      <td className="py-2 px-3 font-bold text-indigo-600">#{inst.nirf}</td>
                       <td className="py-2 px-3 font-medium text-gray-900">{inst.name}</td>
                       <td className="py-2 px-3 text-gray-500">{inst.location}</td>
                       <td className="py-2 px-3 text-gray-700">{inst.avgPackage}</td>
                       <td className="py-2 px-3">
                         <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                          inst.type === 'Government' ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'
+                          inst.type === 'Government' ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-amber-50 text-amber-700 border border-amber-100'
                         }`}>{inst.type}</span>
                       </td>
                     </tr>
@@ -204,7 +204,7 @@ export default function MarketInsights() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-gray-200">
+                  <tr className="border-b border-gray-100">
                     <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">NIRF</th>
                     <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">Institute</th>
                     <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">Location</th>
@@ -214,14 +214,14 @@ export default function MarketInsights() {
                 </thead>
                 <tbody>
                   {d.topInstitutions.management.map((inst: any) => (
-                    <tr key={inst.name} className="border-b border-gray-100 hover:bg-gray-50">
+                    <tr key={inst.name} className="border-b border-gray-50 hover:bg-gray-50">
                       <td className="py-2 px-3 font-bold text-blue-600">#{inst.nirf}</td>
                       <td className="py-2 px-3 font-medium text-gray-900">{inst.name}</td>
                       <td className="py-2 px-3 text-gray-500">{inst.location}</td>
                       <td className="py-2 px-3 text-gray-700">{inst.avgPackage}</td>
                       <td className="py-2 px-3">
                         <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                          inst.type === 'Government' ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'
+                          inst.type === 'Government' ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-amber-50 text-amber-700 border border-amber-100'
                         }`}>{inst.type}</span>
                       </td>
                     </tr>
@@ -234,12 +234,12 @@ export default function MarketInsights() {
           {/* Medical */}
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-              <Building2 className="h-4 w-4 text-green-500" /> Medical Colleges
+              <Building2 className="h-4 w-4 text-emerald-500" /> Medical Colleges
             </h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-gray-200">
+                  <tr className="border-b border-gray-100">
                     <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">NIRF</th>
                     <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">Institute</th>
                     <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">Location</th>
@@ -248,13 +248,13 @@ export default function MarketInsights() {
                 </thead>
                 <tbody>
                   {d.topInstitutions.medical.map((inst: any) => (
-                    <tr key={inst.name} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-2 px-3 font-bold text-green-600">#{inst.nirf}</td>
+                    <tr key={inst.name} className="border-b border-gray-50 hover:bg-gray-50">
+                      <td className="py-2 px-3 font-bold text-emerald-600">#{inst.nirf}</td>
                       <td className="py-2 px-3 font-medium text-gray-900">{inst.name}</td>
                       <td className="py-2 px-3 text-gray-500">{inst.location}</td>
                       <td className="py-2 px-3">
                         <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                          inst.type === 'Government' ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'
+                          inst.type === 'Government' ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-amber-50 text-amber-700 border border-amber-100'
                         }`}>{inst.type}</span>
                       </td>
                     </tr>
@@ -270,13 +270,13 @@ export default function MarketInsights() {
         <div className="space-y-6">
           {Object.entries(d.entranceExams).map(([category, exams]: [string, any]) => {
             const categoryNames: Record<string, string> = {
-              engineering: '⚙️ Engineering',
-              medical: '🏥 Medical',
-              management: '💼 Management',
-              law: '⚖️ Law',
-              design: '🎨 Design',
-              civilServices: '🏛️ Civil Services',
-              general: '📚 General',
+              engineering: 'Engineering',
+              medical: 'Medical',
+              management: 'Management',
+              law: 'Law',
+              design: 'Design',
+              civilServices: 'Civil Services',
+              general: 'General',
             };
             return (
               <div key={category}>
@@ -285,13 +285,13 @@ export default function MarketInsights() {
                   {exams.map((exam: any) => (
                     <div key={exam.name} className="card-hover p-4">
                       <div className="flex items-start justify-between">
-                        <h4 className="text-sm font-bold text-gray-900">{exam.name}</h4>
+                        <h4 className="text-sm font-semibold text-gray-900">{exam.name}</h4>
                         <span className="text-xs text-gray-400 whitespace-nowrap">{exam.frequency}</span>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">{exam.fullForm}</p>
                       <div className="mt-2 flex items-center gap-2 text-xs">
-                        <span className="rounded-full bg-violet-100 px-2 py-0.5 text-violet-700">{exam.conductingBody}</span>
-                        <span className="text-gray-400">•</span>
+                        <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-indigo-700 border border-indigo-100">{exam.conductingBody}</span>
+                        <span className="text-gray-400">&middot;</span>
                         <span className="text-gray-500">{exam.eligibility}</span>
                       </div>
                     </div>
@@ -308,20 +308,20 @@ export default function MarketInsights() {
           {d.learningPlatforms.map((platform: any) => (
             <div key={platform.name} className="card-hover">
               <div className="flex items-start justify-between mb-2">
-                <h3 className="text-sm font-bold text-gray-900">{platform.name}</h3>
+                <h3 className="text-sm font-semibold text-gray-900">{platform.name}</h3>
                 <div className="flex gap-1">
                   {platform.indianContent && (
-                    <span className="rounded-full bg-orange-100 px-1.5 py-0.5 text-xs text-orange-700">🇮🇳</span>
+                    <span className="rounded-full bg-amber-50 px-1.5 py-0.5 text-xs text-amber-700 border border-amber-100">IN</span>
                   )}
                   {platform.free && (
-                    <span className="rounded-full bg-green-100 px-1.5 py-0.5 text-xs text-green-700">Free</span>
+                    <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-xs text-emerald-700 border border-emerald-100">Free</span>
                   )}
                 </div>
               </div>
               <p className="text-xs text-gray-500 mb-3">{platform.description}</p>
               <div className="flex flex-wrap gap-1">
                 {platform.focus.map((f: string) => (
-                  <span key={f} className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600">{f}</span>
+                  <span key={f} className="rounded bg-gray-50 px-2 py-0.5 text-xs text-gray-600 border border-gray-100">{f}</span>
                 ))}
               </div>
             </div>

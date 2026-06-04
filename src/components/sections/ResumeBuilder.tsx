@@ -113,43 +113,43 @@ export default function ResumeBuilder() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
-        <button onClick={goBack} className="btn-ghost py-1.5 px-3">
-          <ArrowLeft className="h-4 w-4" /> Back
+        <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+          <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
         </button>
         <h1 className="section-title">Resume Builder</h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Left: Form */}
         <div className="space-y-4">
           <div className="card">
-            <h3 className="text-sm font-semibold text-gray-500 mb-4 flex items-center gap-2">
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
               <FileText className="h-4 w-4" /> Resume Details
             </h3>
 
             <div className="space-y-4">
               {fields.map(field => (
                 <div key={field.key}>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">{field.label}</label>
+                  <label className="block text-xs font-medium text-gray-600 mb-1.5">{field.label}</label>
                   <input
                     type={field.type}
                     value={formData[field.key as keyof typeof formData]}
                     onChange={(e) => handleChange(field.key, e.target.value)}
                     placeholder={field.placeholder}
-                    className="input-field"
+                    className="premium-input"
                   />
                 </div>
               ))}
 
               {textAreas.map(field => (
                 <div key={field.key}>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">{field.label}</label>
+                  <label className="block text-xs font-medium text-gray-600 mb-1.5">{field.label}</label>
                   <textarea
                     value={formData[field.key as keyof typeof formData]}
                     onChange={(e) => handleChange(field.key, e.target.value)}
                     placeholder={field.placeholder}
                     rows={field.rows}
-                    className="input-field resize-none"
+                    className="premium-input resize-none"
                   />
                 </div>
               ))}
@@ -158,7 +158,7 @@ export default function ResumeBuilder() {
             <button
               onClick={handleGenerate}
               disabled={loading}
-              className="btn-primary w-full mt-6"
+              className="premium-btn w-full mt-6"
             >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
               {loading ? 'Generating with AI...' : 'Generate with AI'}
@@ -170,7 +170,7 @@ export default function ResumeBuilder() {
         <div className="space-y-4">
           <div className="card">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-gray-500 flex items-center gap-2">
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2">
                 <FileText className="h-4 w-4" /> Preview
               </h3>
               {resumeContent && (
@@ -193,8 +193,8 @@ export default function ResumeBuilder() {
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center py-16 text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100 mb-4">
-                  <FileText className="h-8 w-8 text-gray-400" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-50 mb-4 border border-gray-100">
+                  <FileText className="h-7 w-7 text-gray-400" />
                 </div>
                 <h3 className="text-sm font-semibold text-gray-900 mb-1">No resume yet</h3>
                 <p className="text-xs text-gray-500 max-w-xs">

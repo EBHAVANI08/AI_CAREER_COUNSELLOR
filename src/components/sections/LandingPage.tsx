@@ -32,73 +32,75 @@ export default function LandingPage() {
   const features = [
     { icon: Brain, title: 'AI-Powered Guidance', desc: '6 specialized AI agents analyze your unique profile for personalized career advice' },
     { icon: Sparkles, title: 'Scientific Assessments', desc: 'RIASEC, MBTI & Career Quiz — industry-standard tools to discover your strengths' },
-    { icon: Map, title: 'Career Roadmaps', desc: 'Step-by-step career paths with Indian market data, resources & timelines' },
-    { icon: FileText, title: 'Resume Builder', desc: 'ATS-optimized resumes tailored for the Indian job market' },
+    { icon: Map, title: 'Career Roadmaps', desc: 'Step-by-step career paths with market data, resources & timelines' },
+    { icon: FileText, title: 'Resume Builder', desc: 'ATS-optimized resumes tailored for the job market' },
   ];
 
   return (
     <div className="flex min-h-screen">
       {/* Left Panel — Hero */}
-      <div className="hidden lg:flex lg:w-1/2 ai-gradient animate-gradient flex-col justify-between p-12 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/10" />
+      <div className="hidden lg:flex lg:w-1/2 ai-gradient flex-col justify-between p-12 text-white relative overflow-hidden">
         <div className="relative z-10">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/20 backdrop-blur-sm">
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 backdrop-blur-sm">
               <Zap className="h-5 w-5 text-white" />
             </div>
-            <span className="text-xl font-bold">CareerAI</span>
+            <span className="text-lg font-bold tracking-tight">CareerAI</span>
           </div>
-          <div className="mt-2">
-            <span className="ai-badge bg-white/20 text-white backdrop-blur-sm text-xs">
-              ✨ Powered by Multi-Agent AI
+          <div className="mt-3">
+            <span className="ai-badge bg-white/10 text-white/90 backdrop-blur-sm text-xs border border-white/10">
+              Powered by Multi-Agent AI
             </span>
           </div>
         </div>
 
         <div className="relative z-10 space-y-6">
-          <h1 className="text-4xl xl:text-5xl font-bold leading-tight">
-            Discover Your<br />
-            Dream Career
-          </h1>
-          <p className="text-lg text-white/80 max-w-md">
-            Intelligent career guidance powered by AI. Built for Indian students and professionals seeking clarity in their career journey.
+          <div>
+            <div className="h-1 w-10 rounded-full bg-white/40 mb-6" />
+            <h1 className="text-4xl xl:text-5xl font-bold leading-tight tracking-tight">
+              Discover Your<br />
+              Dream Career
+            </h1>
+          </div>
+          <p className="text-base text-white/70 max-w-md leading-relaxed">
+            Intelligent career guidance powered by AI. Built for students and professionals seeking clarity in their career journey.
           </p>
 
-          <div className="space-y-4 mt-8">
+          <div className="space-y-3 mt-8">
             {features.map((f, i) => (
-              <div key={i} className="flex items-start gap-4 rounded-xl bg-white/10 backdrop-blur-sm p-4 transition-all hover:bg-white/15">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/20">
-                  <f.icon className="h-5 w-5" />
+              <div key={i} className="flex items-start gap-3.5 rounded-xl bg-white/10 backdrop-blur-sm p-4 transition-all hover:bg-white/15 border border-white/5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/15">
+                  <f.icon className="h-4.5 w-4.5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold">{f.title}</h3>
-                  <p className="text-sm text-white/70 mt-0.5">{f.desc}</p>
+                  <h3 className="text-sm font-semibold">{f.title}</h3>
+                  <p className="text-xs text-white/60 mt-0.5 leading-relaxed">{f.desc}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="relative z-10 text-sm text-white/50">
-          © 2025 CareerAI — Intelligent Career Guidance for India
+        <div className="relative z-10 text-xs text-white/40">
+          &copy; 2025 CareerAI — Intelligent Career Guidance
         </div>
       </div>
 
       {/* Right Panel — Auth Form */}
-      <div className="flex w-full lg:w-1/2 items-center justify-center p-6 sm:p-12">
+      <div className="flex w-full lg:w-1/2 items-center justify-center p-6 sm:p-12 bg-white">
         <div className="w-full max-w-md space-y-8">
           {/* Mobile Logo */}
           <div className="lg:hidden text-center">
             <div className="inline-flex items-center gap-2 mb-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-600">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500">
                 <Zap className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">CareerAI</span>
+              <span className="text-lg font-bold text-gray-900 tracking-tight">CareerAI</span>
             </div>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900">
               {isSignUp ? 'Create your account' : 'Welcome back'}
             </h2>
             <p className="mt-2 text-sm text-gray-500">
@@ -108,7 +110,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && (
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -119,7 +121,7 @@ export default function LandingPage() {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="input-field"
+                  className="premium-input"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -134,7 +136,7 @@ export default function LandingPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="input-field"
+                className="premium-input"
                 placeholder="you@example.com"
               />
             </div>
@@ -149,7 +151,7 @@ export default function LandingPage() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="input-field pr-10"
+                  className="premium-input pr-10"
                   placeholder="Enter your password"
                 />
                 <button
@@ -163,7 +165,7 @@ export default function LandingPage() {
             </div>
 
             {error && (
-              <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-600">
+              <div className="rounded-lg bg-red-50 border border-red-100 p-3 text-sm text-red-600">
                 {error}
               </div>
             )}
@@ -171,7 +173,7 @@ export default function LandingPage() {
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full py-3"
+              className="premium-btn w-full py-3"
             >
               {loading ? (
                 <>
@@ -187,7 +189,7 @@ export default function LandingPage() {
           <div className="text-center">
             <button
               onClick={() => { setIsSignUp(!isSignUp); setError(''); }}
-              className="text-sm text-violet-600 hover:text-violet-700 font-medium"
+              className="text-sm text-indigo-500 hover:text-indigo-600 font-medium"
             >
               {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
             </button>
@@ -197,7 +199,7 @@ export default function LandingPage() {
           <div className="lg:hidden space-y-3 pt-4 border-t border-gray-100">
             {features.slice(0, 2).map((f, i) => (
               <div key={i} className="flex items-center gap-3 text-sm text-gray-600">
-                <f.icon className="h-4 w-4 text-violet-500 shrink-0" />
+                <f.icon className="h-4 w-4 text-indigo-400 shrink-0" />
                 <span>{f.title}</span>
               </div>
             ))}

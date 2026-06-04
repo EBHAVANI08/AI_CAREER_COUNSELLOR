@@ -3,7 +3,7 @@
 import { useStore } from '@/lib/store';
 import {
   LayoutDashboard, ClipboardList, MessageSquare, Map,
-  Compass, FileText, User,
+  Compass, FileText, User, LogOut,
 } from 'lucide-react';
 import type { AppSection } from '@/types';
 
@@ -21,22 +21,21 @@ export default function Sidebar() {
   const { currentSection, navigateTo, logout, user, countryName } = useStore();
 
   return (
-    <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-white border-r border-gray-200">
+    <aside className="hidden lg:flex lg:flex-col lg:w-60 lg:fixed lg:inset-y-0 bg-white border-r border-gray-100">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 p-6 border-b border-gray-100">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-violet-600">
-          <LayoutDashboard className="h-5 w-5 text-white" />
+      <div className="flex items-center gap-2.5 px-5 py-5 border-b border-gray-100">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-500">
+          <LayoutDashboard className="h-4 w-4 text-white" />
         </div>
         <div>
-          <span className="text-base font-bold text-gray-900">CareerAI</span>
-          <span className="block text-xs text-gray-400">Career Guidance</span>
+          <span className="text-sm font-bold text-gray-900 tracking-tight">CareerAI</span>
         </div>
       </div>
 
       {/* User Info */}
       <div className="px-4 py-3 border-b border-gray-100">
-        <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-gray-50">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-violet-100 text-sm font-bold text-violet-600">
+        <div className="flex items-center gap-3 px-2 py-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-50 text-sm font-semibold text-indigo-600">
             {user?.name?.charAt(0)?.toUpperCase() || 'U'}
           </div>
           <div className="min-w-0">
@@ -47,7 +46,7 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+      <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-0.5">
         {navItems.map((item) => {
           const isActive = currentSection === item.section ||
             (item.section === 'assessments' && ['riasec', 'mbti', 'career-quiz'].includes(currentSection));
@@ -55,29 +54,29 @@ export default function Sidebar() {
             <button
               key={item.section}
               onClick={() => navigateTo(item.section)}
-              className={`w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+              className={`w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all relative ${
                 isActive
-                  ? 'bg-violet-100 text-violet-700'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  ? 'bg-indigo-50 text-indigo-700'
+                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
               }`}
             >
-              <item.icon className={`h-5 w-5 ${isActive ? 'text-violet-600' : 'text-gray-400'}`} />
-              {item.label}
               {isActive && (
-                <div className="ml-auto h-1.5 w-1.5 rounded-full bg-violet-500" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 rounded-full bg-indigo-500" />
               )}
+              <item.icon className={`h-[18px] w-[18px] ${isActive ? 'text-indigo-500' : 'text-gray-400'}`} />
+              {item.label}
             </button>
           );
         })}
       </nav>
 
       {/* Logout */}
-      <div className="border-t border-gray-100 p-4">
+      <div className="border-t border-gray-100 p-3">
         <button
           onClick={logout}
-          className="w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all"
+          className="w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+          <LogOut className="h-[18px] w-[18px]" />
           Sign Out
         </button>
       </div>

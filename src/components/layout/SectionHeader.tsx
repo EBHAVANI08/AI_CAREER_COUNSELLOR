@@ -18,14 +18,14 @@ export default function SectionHeader({ title, subtitle, showBack = true }: Sect
         {showBack && (
           <button
             onClick={goBack}
-            className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium text-gray-600 transition-all hover:bg-gray-100 hover:text-gray-900"
+            className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50"
           >
             <ArrowLeft className="h-4 w-4" />
             <span className="hidden sm:inline">Back</span>
           </button>
         )}
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{title}</h1>
+          <h1 className="text-xl font-bold tracking-tight text-gray-900">{title}</h1>
           {subtitle && (
             <p className="text-sm text-gray-500 mt-0.5">{subtitle}</p>
           )}

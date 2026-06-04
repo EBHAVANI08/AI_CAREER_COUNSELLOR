@@ -101,8 +101,8 @@ export default function RIASECAssessment() {
     return (
       <div className="space-y-6 animate-fade-in">
         <div className="flex items-center gap-3">
-          <button onClick={goBack} className="btn-ghost py-1.5 px-3">
-            <ArrowLeft className="h-4 w-4" /> Back
+          <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+            <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
           </button>
           <h1 className="section-title">RIASEC Results</h1>
         </div>
@@ -110,20 +110,20 @@ export default function RIASECAssessment() {
         {/* Top Type Card */}
         <div className="ai-card">
           <div className="flex items-center gap-2 mb-3">
-            <Brain className="h-5 w-5 text-violet-600" />
-            <span className="text-lg font-bold text-gray-900">{desc.title}</span>
+            <Brain className="h-5 w-5 text-indigo-500" />
+            <span className="text-lg font-bold text-gray-900 tracking-tight">{desc.title}</span>
           </div>
-          <p className="text-sm text-gray-600 mb-4">{desc.description}</p>
+          <p className="text-sm text-gray-600 mb-4 leading-relaxed">{desc.description}</p>
           <div className="flex flex-wrap gap-2">
             {desc.traits.map(trait => (
-              <span key={trait} className="rounded-full bg-violet-100 px-3 py-1 text-xs font-medium text-violet-700">{trait}</span>
+              <span key={trait} className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700 border border-indigo-100">{trait}</span>
             ))}
           </div>
         </div>
 
         {/* Score Bars */}
         <div className="card">
-          <h3 className="text-sm font-semibold text-gray-500 mb-4 flex items-center gap-2">
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
             <BarChart3 className="h-4 w-4" /> Score Breakdown
           </h3>
           <div className="space-y-3">
@@ -131,16 +131,16 @@ export default function RIASECAssessment() {
               const d = riasecDescriptions[code];
               const isTop = code === riasecResult.topCode;
               return (
-                <div key={code} className={`p-3 rounded-lg ${isTop ? 'bg-violet-50 border border-violet-200' : ''}`}>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className={`text-xs font-semibold ${isTop ? 'text-violet-700' : 'text-gray-600'}`}>
+                <div key={code} className={`p-3 rounded-lg ${isTop ? 'bg-indigo-50 border border-indigo-100' : ''}`}>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className={`text-xs font-semibold ${isTop ? 'text-indigo-700' : 'text-gray-600'}`}>
                       {code} — {d.title.split('—')[0].trim()}
                     </span>
-                    <span className={`text-xs font-bold ${isTop ? 'text-violet-700' : 'text-gray-900'}`}>{score}%</span>
+                    <span className={`text-xs font-bold ${isTop ? 'text-indigo-700' : 'text-gray-900'}`}>{score}%</span>
                   </div>
                   <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
                     <div
-                      className={`h-full rounded-full animate-progress ${isTop ? 'bg-violet-500' : 'bg-gray-400'}`}
+                      className={`h-full rounded-full animate-progress ${isTop ? 'bg-indigo-500' : 'bg-gray-400'}`}
                       style={{ width: `${score}%` }}
                     />
                   </div>
@@ -152,26 +152,26 @@ export default function RIASECAssessment() {
 
         {/* Career Tags */}
         <div className="card">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3">Career Matches</h3>
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Career Matches</h3>
           <div className="flex flex-wrap gap-2">
             {desc.careers.map(career => (
-              <span key={career} className="rounded-lg bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700">{career}</span>
+              <span key={career} className="rounded-lg bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-700 border border-gray-100">{career}</span>
             ))}
           </div>
         </div>
 
         {/* AI Analysis */}
         <div className="card">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3 flex items-center gap-2">
-            <Brain className="h-4 w-4 text-violet-500" /> AI Analysis
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <Brain className="h-4 w-4 text-indigo-500" /> AI Analysis
           </h3>
           {analysis ? (
-            <p className="text-sm text-gray-700">{analysis}</p>
+            <p className="text-sm text-gray-700 leading-relaxed">{analysis}</p>
           ) : (
             <button
               onClick={handleGetAIAnalysis}
               disabled={analysisLoading}
-              className="btn-primary text-sm"
+              className="premium-btn text-sm"
             >
               {analysisLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Brain className="h-4 w-4" />}
               {analysisLoading ? 'Analyzing...' : 'Get AI Analysis'}
@@ -185,20 +185,13 @@ export default function RIASECAssessment() {
   // Assessment View
   const question = riasecQuestions[currentQ];
   const likertLabels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'];
-  const likertColors = [
-    'border-red-300 bg-red-50 text-red-700 hover:bg-red-100',
-    'border-orange-300 bg-orange-50 text-orange-700 hover:bg-orange-100',
-    'border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100',
-    'border-green-300 bg-green-50 text-green-700 hover:bg-green-100',
-    'border-violet-300 bg-violet-50 text-violet-700 hover:bg-violet-100',
-  ];
 
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
-        <button onClick={goBack} className="btn-ghost py-1.5 px-3">
-            <ArrowLeft className="h-4 w-4" /> Back
-          </button>
+        <button onClick={goBack} className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-50">
+          <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
+        </button>
         <span className="text-sm text-gray-500">Question {currentQ + 1} of {totalQuestions}</span>
       </div>
 
@@ -208,9 +201,9 @@ export default function RIASECAssessment() {
       </div>
 
       {/* Progress Bar */}
-      <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+      <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
         <div
-          className="h-full rounded-full bg-violet-500 transition-all duration-300 animate-progress"
+          className="h-full rounded-full bg-indigo-500 transition-all duration-300 animate-progress"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -223,14 +216,14 @@ export default function RIASECAssessment() {
             <button
               key={i}
               onClick={() => handleAnswer(i + 1)}
-              className={`w-full flex items-center gap-3 rounded-lg border-2 p-3 text-left transition-all ${
+              className={`w-full flex items-center gap-3 rounded-lg border p-3 text-left transition-all ${
                 answers[currentQ] === i + 1
-                  ? 'border-violet-500 bg-violet-50 text-violet-700'
-                  : likertColors[i]
+                  ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
+                  : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
               }`}
             >
               <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                answers[currentQ] === i + 1 ? 'bg-violet-600 text-white' : 'bg-white border border-gray-300 text-gray-500'
+                answers[currentQ] === i + 1 ? 'bg-indigo-500 text-white' : 'bg-gray-50 border border-gray-200 text-gray-500'
               }`}>
                 {answers[currentQ] === i + 1 ? <CheckCircle2 className="h-4 w-4" /> : i + 1}
               </div>
@@ -256,22 +249,22 @@ export default function RIASECAssessment() {
             <button
               key={i}
               onClick={() => setCurrentQ(i)}
-              className={`h-2 w-2 rounded-full transition-all ${
-                i === currentQ ? 'bg-violet-500 w-4' : answers[i] !== undefined ? 'bg-violet-300' : 'bg-gray-200'
+              className={`h-1.5 rounded-full transition-all ${
+                i === currentQ ? 'bg-indigo-500 w-4' : answers[i] !== undefined ? 'bg-indigo-300' : 'bg-gray-200'
               }`}
             />
           ))}
         </div>
 
         {isFinished ? (
-          <button onClick={calculateResults} className="btn-primary">
+          <button onClick={calculateResults} className="premium-btn">
             See Results <CheckCircle2 className="h-4 w-4" />
           </button>
         ) : (
           <button
             onClick={() => setCurrentQ(Math.min(totalQuestions - 1, currentQ + 1))}
             disabled={answers[currentQ] === undefined}
-            className="btn-primary"
+            className="premium-btn"
           >
             Next <ArrowRight className="h-4 w-4" />
           </button>
