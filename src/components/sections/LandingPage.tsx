@@ -1,0 +1,209 @@
+'use client';
+
+import { useState } from 'react';
+import { useStore } from '@/lib/store';
+import { Brain, Sparkles, Map, FileText, Eye, EyeOff, Loader2, Zap } from 'lucide-react';
+
+export default function LandingPage() {
+  const { login, navigateTo } = useStore();
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (!email.trim()) { setError('Email is required'); return; }
+    if (isSignUp && !name.trim()) { setError('Name is required'); return; }
+    if (!password.trim() || password.length < 3) { setError('Password must be at least 3 characters'); return; }
+
+    setLoading(true);
+    setTimeout(() => {
+      login(email, isSignUp ? name : email.split('@')[0]);
+      setLoading(false);
+    }, 800);
+  };
+
+  const features = [
+    { icon: Brain, title: 'AI-Powered Guidance', desc: '6 specialized AI agents analyze your unique profile for personalized career advice' },
+    { icon: Sparkles, title: 'Scientific Assessments', desc: 'RIASEC, MBTI & Career Quiz — industry-standard tools to discover your strengths' },
+    { icon: Map, title: 'Career Roadmaps', desc: 'Step-by-step career paths with Indian market data, resources & timelines' },
+    { icon: FileText, title: 'Resume Builder', desc: 'ATS-optimized resumes tailored for the Indian job market' },
+  ];
+
+  return (
+    <div className="flex min-h-screen">
+      {/* Left Panel — Hero */}
+      <div className="hidden lg:flex lg:w-1/2 ai-gradient animate-gradient flex-col justify-between p-12 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10" />
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/20 backdrop-blur-sm">
+              <Zap className="h-5 w-5 text-white" />
+            </div>
+            <span className="text-xl font-bold">CareerAI</span>
+          </div>
+          <div className="mt-2">
+            <span className="ai-badge bg-white/20 text-white backdrop-blur-sm text-xs">
+              ✨ Powered by Multi-Agent AI
+            </span>
+          </div>
+        </div>
+
+        <div className="relative z-10 space-y-6">
+          <h1 className="text-4xl xl:text-5xl font-bold leading-tight">
+            Discover Your<br />
+            Dream Career
+          </h1>
+          <p className="text-lg text-white/80 max-w-md">
+            Intelligent career guidance powered by AI. Built for Indian students and professionals seeking clarity in their career journey.
+          </p>
+
+          <div className="space-y-4 mt-8">
+            {features.map((f, i) => (
+              <div key={i} className="flex items-start gap-4 rounded-xl bg-white/10 backdrop-blur-sm p-4 transition-all hover:bg-white/15">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/20">
+                  <f.icon className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">{f.title}</h3>
+                  <p className="text-sm text-white/70 mt-0.5">{f.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative z-10 text-sm text-white/50">
+          © 2025 CareerAI — Intelligent Career Guidance for India
+        </div>
+      </div>
+
+      {/* Right Panel — Auth Form */}
+      <div className="flex w-full lg:w-1/2 items-center justify-center p-6 sm:p-12">
+        <div className="w-full max-w-md space-y-8">
+          {/* Mobile Logo */}
+          <div className="lg:hidden text-center">
+            <div className="inline-flex items-center gap-2 mb-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-600">
+                <Zap className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-xl font-bold text-gray-900">CareerAI</span>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">
+              {isSignUp ? 'Create your account' : 'Welcome back'}
+            </h2>
+            <p className="mt-2 text-sm text-gray-500">
+              {isSignUp
+                ? 'Start your journey to a fulfilling career'
+                : 'Sign in to continue your career journey'}
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {isSignUp && (
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Full Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="input-field"
+                  placeholder="Enter your full name"
+                />
+              </div>
+            )}
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
+                Email Address
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="input-field"
+                placeholder="you@example.com"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="input-field pr-10"
+                  placeholder="Enter your password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
+
+            {error && (
+              <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-600">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary w-full py-3"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  {isSignUp ? 'Creating Account...' : 'Signing In...'}
+                </>
+              ) : (
+                isSignUp ? 'Create Account' : 'Sign In'
+              )}
+            </button>
+          </form>
+
+          <div className="text-center">
+            <button
+              onClick={() => { setIsSignUp(!isSignUp); setError(''); }}
+              className="text-sm text-violet-600 hover:text-violet-700 font-medium"
+            >
+              {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
+            </button>
+          </div>
+
+          {/* Mobile Features */}
+          <div className="lg:hidden space-y-3 pt-4 border-t border-gray-100">
+            {features.slice(0, 2).map((f, i) => (
+              <div key={i} className="flex items-center gap-3 text-sm text-gray-600">
+                <f.icon className="h-4 w-4 text-violet-500 shrink-0" />
+                <span>{f.title}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
