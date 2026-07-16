@@ -11,21 +11,13 @@ import {
 
 export default function Dashboard() {
   const store = useStore();
-  const [aiRouting, setAiRouting] = useState<AIRoutingResult | null>(null);
+  const [aiRouting, setAiRouting] = useState<AIRoutingResult | null>(store.aiRouting);
   const [routingLoading, setRoutingLoading] = useState(false);
 
   const profileCompleteness = store.profileCompleteness();
   const completedAssessments = store.completedAssessmentCount();
 
-  useEffect(() => {
-    if (!store.aiRouting) {
-      fetchAIRouting();
-    } else {
-      setAiRouting(store.aiRouting);
-    }
-  }, []);
-
-  const fetchAIRouting = async () => {
+  async function fetchAIRouting() {
     setRoutingLoading(true);
     try {
       const profile = {
@@ -56,7 +48,13 @@ export default function Dashboard() {
     } finally {
       setRoutingLoading(false);
     }
-  };
+  }
+
+  useEffect(() => {
+    if (store.aiRouting) return;
+    const timer = window.setTimeout(() => void fetchAIRouting(), 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const assessments = [
     { id: 'riasec', name: 'RIASEC Assessment', desc: 'Career personality type', icon: Target, completed: !!store.riasecResult },

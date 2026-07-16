@@ -61,13 +61,20 @@ function SectionRenderer() {
 }
 
 export default function Home() {
-  const { isAuthenticated, onboardingComplete, _hydrated, _setHydrated } = useStore();
+  const { isAuthenticated, onboardingComplete, logout, _hydrated, _setHydrated } = useStore();
 
   useEffect(() => {
     if (!_hydrated) {
       _setHydrated();
     }
   }, [_hydrated, _setHydrated]);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    void fetch('/api/auth/me').then(response => {
+      if (response.status === 401) logout();
+    }).catch(() => undefined);
+  }, [isAuthenticated, logout]);
 
   // Show loading while hydrating
   if (!_hydrated) {

@@ -7,6 +7,7 @@ interface AppState {
   user: { name: string; email: string } | null;
   isAuthenticated: boolean;
   login: (email: string, name: string) => void;
+  setUserName: (name: string) => void;
   logout: () => void;
 
   // Onboarding
@@ -29,10 +30,13 @@ interface AppState {
   // Assessments
   riasecResult: RIASECResult | null;
   setRiasecResult: (result: RIASECResult) => void;
+  riasecHistory: RIASECResult[];
   mbtiResult: MBTIResult | null;
   setMbtiResult: (result: MBTIResult) => void;
+  mbtiHistory: MBTIResult[];
   careerQuizResult: CareerQuizResult | null;
   setCareerQuizResult: (result: CareerQuizResult) => void;
+  careerQuizHistory: CareerQuizResult[];
 
   // Chat
   chatMessages: ChatMessage[];
@@ -77,6 +81,10 @@ interface AppState {
 
 const STORAGE_PREFIX = 'aic_';
 
+function historyKey(email: string | undefined, assessment: string) {
+  return `assessment_history_${email || 'guest'}_${assessment}`;
+}
+
 function loadFromStorage<T>(key: string, fallback: T): T {
   if (typeof window === 'undefined') return fallback;
   try {
@@ -102,11 +110,25 @@ export const useStore = create<AppState>((set, get) => ({
   isAuthenticated: false,
   login: (email, name) => {
     const user = { email, name };
-    set({ user, isAuthenticated: true });
+    set({
+      user,
+      isAuthenticated: true,
+      riasecHistory: loadFromStorage(historyKey(email, 'riasec'), []),
+      mbtiHistory: loadFromStorage(historyKey(email, 'mbti'), []),
+      careerQuizHistory: loadFromStorage(historyKey(email, 'career_quiz'), []),
+    });
     saveToStorage('user', user);
     saveToStorage('isAuthenticated', true);
   },
+  setUserName: (name) => {
+    const current = get().user;
+    if (!current) return;
+    const user = { ...current, name };
+    set({ user });
+    saveToStorage('user', user);
+  },
   logout: () => {
+    void fetch('/api/auth/logout', { method: 'POST' }).catch(() => undefined);
     set({
       user: null,
       isAuthenticated: false,
@@ -122,6 +144,9 @@ export const useStore = create<AppState>((set, get) => ({
       riasecResult: null,
       mbtiResult: null,
       careerQuizResult: null,
+      riasecHistory: [],
+      mbtiHistory: [],
+      careerQuizHistory: [],
       aiRouting: null,
       assessmentAnalysis: null,
       skills: [],
@@ -136,7 +161,9 @@ export const useStore = create<AppState>((set, get) => ({
         const key = localStorage.key(i);
         if (key?.startsWith(STORAGE_PREFIX)) keysToRemove.push(key);
       }
-      keysToRemove.forEach(k => localStorage.removeItem(k));
+      keysToRemove
+        .filter(k => !k.startsWith(`${STORAGE_PREFIX}assessment_history_`))
+        .forEach(k => localStorage.removeItem(k));
     }
   },
 
@@ -180,19 +207,28 @@ export const useStore = create<AppState>((set, get) => ({
 
   // Assessments
   riasecResult: null,
+  riasecHistory: [],
   setRiasecResult: (result) => {
-    set({ riasecResult: result });
+    const history = [...get().riasecHistory, result];
+    set({ riasecResult: result, riasecHistory: history });
     saveToStorage('riasecResult', result);
+    saveToStorage(historyKey(get().user?.email, 'riasec'), history);
   },
   mbtiResult: null,
+  mbtiHistory: [],
   setMbtiResult: (result) => {
-    set({ mbtiResult: result });
+    const history = [...get().mbtiHistory, result];
+    set({ mbtiResult: result, mbtiHistory: history });
     saveToStorage('mbtiResult', result);
+    saveToStorage(historyKey(get().user?.email, 'mbti'), history);
   },
   careerQuizResult: null,
+  careerQuizHistory: [],
   setCareerQuizResult: (result) => {
-    set({ careerQuizResult: result });
+    const history = [...get().careerQuizHistory, result];
+    set({ careerQuizResult: result, careerQuizHistory: history });
     saveToStorage('careerQuizResult', result);
+    saveToStorage(historyKey(get().user?.email, 'career_quiz'), history);
   },
 
   // Chat
@@ -306,8 +342,13 @@ if (typeof window !== 'undefined') {
     const state = useStore.getState();
     if (state._hydrated) return;
 
+    const storedUser = loadFromStorage<{ name: string; email: string } | null>('user', null);
+    const storedRiasecResult = loadFromStorage<RIASECResult | null>('riasecResult', null);
+    const storedMbtiResult = loadFromStorage<MBTIResult | null>('mbtiResult', null);
+    const storedCareerQuizResult = loadFromStorage<CareerQuizResult | null>('careerQuizResult', null);
+
     useStore.setState({
-      user: loadFromStorage('user', null),
+      user: storedUser,
       isAuthenticated: loadFromStorage('isAuthenticated', false),
       userType: loadFromStorage('userType', null),
       onboardingComplete: loadFromStorage('onboardingComplete', false),
@@ -315,9 +356,12 @@ if (typeof window !== 'undefined') {
       countryName: loadFromStorage('countryName', ''),
       currentSection: loadFromStorage<AppSection>('currentSection', 'landing'),
       previousSection: loadFromStorage<AppSection>('previousSection', 'landing'),
-      riasecResult: loadFromStorage('riasecResult', null),
-      mbtiResult: loadFromStorage('mbtiResult', null),
-      careerQuizResult: loadFromStorage('careerQuizResult', null),
+      riasecResult: storedRiasecResult,
+      mbtiResult: storedMbtiResult,
+      careerQuizResult: storedCareerQuizResult,
+      riasecHistory: loadFromStorage(historyKey(storedUser?.email, 'riasec'), storedRiasecResult ? [storedRiasecResult] : []),
+      mbtiHistory: loadFromStorage(historyKey(storedUser?.email, 'mbti'), storedMbtiResult ? [storedMbtiResult] : []),
+      careerQuizHistory: loadFromStorage(historyKey(storedUser?.email, 'career_quiz'), storedCareerQuizResult ? [storedCareerQuizResult] : []),
       chatMessages: loadFromStorage('chatMessages', []),
       careerPath: loadFromStorage('careerPath', []),
       resumeContent: loadFromStorage('resumeContent', ''),

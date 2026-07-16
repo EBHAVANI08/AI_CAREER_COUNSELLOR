@@ -14,19 +14,32 @@ export default function LandingPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
     if (!email.trim()) { setError('Email is required'); return; }
     if (isSignUp && !name.trim()) { setError('Name is required'); return; }
-    if (!password.trim() || password.length < 3) { setError('Password must be at least 3 characters'); return; }
+    if (!password.trim() || password.length < 8) { setError('Password must be at least 8 characters'); return; }
 
     setLoading(true);
-    setTimeout(() => {
-      login(email, isSignUp ? name : email.split('@')[0]);
+    try {
+      const response = await fetch(isSignUp ? '/api/auth/register' : '/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, ...(isSignUp ? { name } : {}) }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.error || 'Unable to continue');
+        return;
+      }
+      login(data.user.email, data.user.name);
+    } catch {
+      setError('Unable to connect. Please try again.');
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   const features = [

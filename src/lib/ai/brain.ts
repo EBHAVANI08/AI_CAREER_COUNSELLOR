@@ -193,17 +193,6 @@ RULES:
 
 RESPONSE FORMAT: Comprehensive analysis with clear sections, specific scores referenced, cross-assessment synthesis, and actionable recommendations. Use empathetic but professional tone.`;
 
-// ===== AI Singleton =====
-
-let aiInstance: any = null;
-
-async function getAI() {
-  if (aiInstance) return aiInstance;
-  const ZAI = (await import('z-ai-web-dev-sdk')).default;
-  aiInstance = await ZAI.create();
-  return aiInstance;
-}
-
 // ===== Core AI Call =====
 
 interface AICallOptions {
@@ -211,19 +200,96 @@ interface AICallOptions {
   maxTokens?: number;
 }
 
-async function callAI(messages: { role: string; content: string }[], options: AICallOptions = {}): Promise<string> {
-  try {
-    const ai = await getAI();
-    const response = await ai.chat.completions.create({
+interface ChatCompletionResponse {
+  choices?: { message?: { content?: string } }[];
+}
+
+function chatEndpoint(baseUrl: string) {
+  const normalized = baseUrl.replace(/\/+$/, '');
+  if (normalized.endsWith('/chat/completions')) return normalized;
+  if (normalized.endsWith('/v1')) return `${normalized}/chat/completions`;
+  return `${normalized}/v1/chat/completions`;
+}
+
+function zaiChatEndpoint(baseUrl: string) {
+  const normalized = baseUrl.replace(/\/+$/, '');
+  return normalized.endsWith('/chat/completions') ? normalized : `${normalized}/chat/completions`;
+}
+
+async function callOpenAICompatible(
+  provider: string,
+  endpoint: string,
+  apiKey: string,
+  messages: { role: string; content: string }[],
+  options: AICallOptions,
+  model?: string,
+) {
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      ...(model ? { model } : {}),
       messages,
       temperature: options.temperature ?? 0.7,
       max_tokens: options.maxTokens ?? 1000,
-    });
-    return response.choices?.[0]?.message?.content || '';
-  } catch (error) {
-    console.error('AI call failed:', error);
-    return '';
+    }),
+    signal: AbortSignal.timeout(30_000),
+  });
+
+  if (!response.ok) {
+    throw new Error(`${provider} returned HTTP ${response.status}`);
   }
+
+  const data = await response.json() as ChatCompletionResponse;
+  const content = data.choices?.[0]?.message?.content?.trim();
+  if (!content) throw new Error(`${provider} returned an empty response`);
+  return content;
+}
+
+async function callAI(messages: { role: string; content: string }[], options: AICallOptions = {}): Promise<string> {
+  const zaiBaseUrl = process.env.ZAI_BASE_URL;
+  const zaiApiKey = process.env.ZAI_API_KEY;
+
+  if (zaiBaseUrl && zaiApiKey) {
+    try {
+      return await callOpenAICompatible(
+        'Z-AI',
+        zaiChatEndpoint(zaiBaseUrl),
+        zaiApiKey,
+        messages,
+        options,
+        process.env.ZAI_MODEL,
+      );
+    } catch (error) {
+      console.error('Primary Z-AI call failed; trying Groq fallback:', error instanceof Error ? error.message : 'Unknown error');
+    }
+  }
+
+  const groqApiKey = process.env.GROQ_API_KEY;
+  if (groqApiKey) {
+    const configuredGroqUrl = process.env.GROQ_API_URL;
+    const groqEndpoint = configuredGroqUrl?.includes('api.groq.com')
+      ? chatEndpoint(configuredGroqUrl)
+      : 'https://api.groq.com/openai/v1/chat/completions';
+
+    try {
+      return await callOpenAICompatible(
+        'Groq',
+        groqEndpoint,
+        groqApiKey,
+        messages,
+        options,
+        process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
+      );
+    } catch (error) {
+      console.error('Groq fallback failed:', error instanceof Error ? error.message : 'Unknown error');
+    }
+  }
+
+  return '';
 }
 
 // ===== Profile Context Builder =====
@@ -505,7 +571,6 @@ Generate a complete resume in clean text format with clear section headers. Make
 ${data.name.toUpperCase()}
 =======================================
 📧 ${data.email} | 📱 ${data.phone}
-${profile.targetRole ? `🎯 Target Role: ${data.targetRole}` : ''}
 
 ---------------------------------------
 PROFESSIONAL SUMMARY

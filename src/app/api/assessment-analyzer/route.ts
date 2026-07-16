@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { analyzeAssessmentResults } from '@/lib/ai/brain';
 import type { UserProfile } from '@/types';
+import { requireSession } from '@/lib/security/session';
 
 export async function POST(request: Request) {
   try {
+    await requireSession();
     const body = await request.json();
     const { profile } = body;
 

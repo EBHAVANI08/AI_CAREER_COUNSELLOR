@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useStore } from '@/lib/store';
 import { GraduationCap, Briefcase, ArrowRight, Globe } from 'lucide-react';
 import { countries } from '@/lib/ai/knowledge';
@@ -7,10 +8,26 @@ import { countries } from '@/lib/ai/knowledge';
 export default function OnboardingPage() {
   const { user, setUserType, completeOnboarding, setCountry, country, countryName } = useStore();
   const selectedCountry = countries.find(c => c.code === country);
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
 
-  const handleSelect = (type: 'school' | 'college') => {
-    setUserType(type);
-    completeOnboarding();
+  const handleSelect = async (type: 'school' | 'college') => {
+    setSaving(true);
+    setError('');
+    try {
+      const response = await fetch('/api/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userType: type, onboardingComplete: true, country, countryName }),
+      });
+      if (!response.ok) throw new Error('Unable to save onboarding');
+      setUserType(type);
+      completeOnboarding();
+    } catch {
+      setError('Unable to save your profile. Please try again.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -70,6 +87,7 @@ export default function OnboardingPage() {
           {/* School Student Card */}
           <button
             onClick={() => handleSelect('school')}
+            disabled={saving}
             className="group relative flex flex-col items-center text-center rounded-2xl border border-[#f0f0f0] bg-white p-8 shadow-[0_1px_3px_rgba(0,0,0,0.03)] transition-all duration-300 hover:border-[#d4d4d4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
           >
             <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#f5f5f5] text-[#0c0c1d] transition-colors group-hover:bg-[#0c0c1d] group-hover:text-white">
@@ -87,6 +105,7 @@ export default function OnboardingPage() {
           {/* College Graduate Card */}
           <button
             onClick={() => handleSelect('college')}
+            disabled={saving}
             className="group relative flex flex-col items-center text-center rounded-2xl border border-[#f0f0f0] bg-white p-8 shadow-[0_1px_3px_rgba(0,0,0,0.03)] transition-all duration-300 hover:border-[#d4d4d4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
           >
             <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#f5f5f5] text-[#0c0c1d] transition-colors group-hover:bg-[#0c0c1d] group-hover:text-white">
@@ -101,6 +120,8 @@ export default function OnboardingPage() {
             </div>
           </button>
         </div>
+
+        {error && <p className="text-center text-sm text-red-600">{error}</p>}
 
         <p className="text-center text-xs text-[#b0b0b0]">
           You can change your country and type later in your profile settings

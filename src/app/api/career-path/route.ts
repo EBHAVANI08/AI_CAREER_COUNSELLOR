@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateCareerPath } from '@/lib/ai/brain';
 import type { UserProfile } from '@/types';
+import { requireSession } from '@/lib/security/session';
 
 export async function POST(request: NextRequest) {
   try {
+    await requireSession();
     const body = await request.json();
     const { targetRole, profile } = body;
 

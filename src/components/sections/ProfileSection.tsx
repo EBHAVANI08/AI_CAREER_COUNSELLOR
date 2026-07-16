@@ -18,17 +18,23 @@ export default function ProfileSection() {
   const [analysisLoading, setAnalysisLoading] = useState(false);
   const [analysis, setAnalysis] = useState(store.assessmentAnalysis);
 
-  const handleSave = () => {
-    if (name.trim() && store.user) {
-      store.user.name = name;
-    }
+  const handleSave = async () => {
+    const skills = skillsVal.split(',').map(s => s.trim()).filter(Boolean);
+    const interests = interestsVal.split(',').map(s => s.trim()).filter(Boolean);
+    const selectedCountry = countries.find(x => x.code === countryVal);
+    const response = await fetch('/api/profile', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name.trim(), country: countryVal, countryName: selectedCountry?.name || countryVal, education: educationVal.trim(), skills, interests, targetRole: targetRoleVal.trim() }),
+    });
+    if (!response.ok) return;
+    if (name.trim()) store.setUserName(name.trim());
     if (countryVal) {
-      const c = countries.find(x => x.code === countryVal);
-      store.setCountry(countryVal, c?.name || countryVal);
+      store.setCountry(countryVal, selectedCountry?.name || countryVal);
     }
     store.setEducation(educationVal.trim());
-    store.setSkills(skillsVal.split(',').map(s => s.trim()).filter(Boolean));
-    store.setInterests(interestsVal.split(',').map(s => s.trim()).filter(Boolean));
+    store.setSkills(skills);
+    store.setInterests(interests);
     store.setTargetRole(targetRoleVal.trim());
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
@@ -60,7 +66,7 @@ export default function ProfileSection() {
       setAnalysis(data);
       store.setAssessmentAnalysis(data);
     } catch {
-      setAnalysis({ summary: 'Unable to analyze right now. Please try again later.' });
+      setAnalysis({ summary: 'Unable to analyze right now. Please try again later.', strengths: [], careerMatches: [], skillGaps: [], recommendations: [], crossAssessmentInsights: [] });
     } finally {
       setAnalysisLoading(false);
     }

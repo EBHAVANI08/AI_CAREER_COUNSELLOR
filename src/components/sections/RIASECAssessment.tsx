@@ -6,16 +6,20 @@ import { riasecQuestions, riasecDescriptions } from '@/lib/assessment-data';
 import type { RIASECResult } from '@/types';
 import { ArrowLeft, ArrowRight, CheckCircle2, Loader2, Brain, BarChart3 } from 'lucide-react';
 import SectionHeader from '@/components/layout/SectionHeader';
+import { useShuffledAssessment } from '@/hooks/use-shuffled-assessment';
+import { persistAssessmentAttempt } from '@/lib/assessment-api';
 
 export default function RIASECAssessment() {
-  const { setRiasecResult, riasecResult, navigateTo, goBack } = useStore();
+  const { setRiasecResult, riasecResult, riasecHistory, navigateTo, goBack } = useStore();
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showResults, setShowResults] = useState(!!riasecResult);
   const [analysisLoading, setAnalysisLoading] = useState(false);
   const [analysis, setAnalysis] = useState<string | null>(null);
+  const userKey = useStore(state => state.user?.email || 'guest');
+  const { questions, reshuffle } = useShuffledAssessment(riasecQuestions, 'riasec', userKey);
 
-  const totalQuestions = riasecQuestions.length;
+  const totalQuestions = questions.length;
   const progress = ((Object.keys(answers).length) / totalQuestions) * 100;
   const isFinished = Object.keys(answers).length === totalQuestions;
 
@@ -34,7 +38,7 @@ export default function RIASECAssessment() {
     const counts: Record<string, number> = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
 
     for (const [qIndex, value] of Object.entries(answers)) {
-      const question = riasecQuestions[parseInt(qIndex)];
+      const question = questions[parseInt(qIndex)];
       if (question) {
         scores[question.category] += value;
         counts[question.category] += 1;
@@ -62,6 +66,16 @@ export default function RIASECAssessment() {
 
     setRiasecResult(result);
     setShowResults(true);
+    void persistAssessmentAttempt('RIASEC', result, questions.map(question => question.id))
+      .catch(error => console.error('Could not persist RIASEC attempt:', error));
+  };
+
+  const retakeAssessment = () => {
+    reshuffle();
+    setAnswers({});
+    setCurrentQ(0);
+    setAnalysis(null);
+    setShowResults(false);
   };
 
   const handleGetAIAnalysis = async () => {
@@ -100,12 +114,36 @@ export default function RIASECAssessment() {
 
     return (
       <div className="space-y-6 animate-fade-in">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
           <button onClick={goBack} className="flex items-center gap-1 rounded-xl px-2 py-1.5 text-sm text-[#b0b0b0] transition-all hover:text-[#0a0a0a] hover:bg-[#f5f5f5]">
             <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
           </button>
           <h1 className="section-title">RIASEC Results</h1>
+          </div>
+          <button onClick={retakeAssessment} className="btn-secondary text-xs">Retake with new order</button>
         </div>
+
+        {riasecHistory.length > 1 && (
+          <div className="card">
+            <h3 className="text-xs font-semibold text-[#737373] uppercase tracking-wider mb-3">Previous Attempts</h3>
+            <div className="space-y-2">
+              {riasecHistory.slice(0, -1).reverse().map((attempt, index) => (
+                <div key={`${attempt.completedAt}-${index}`} className="rounded-xl border border-[#ebebeb] bg-[#fafafa] p-3">
+                  <div className="flex items-center justify-between gap-3 mb-2">
+                    <span className="text-sm font-semibold text-[#0a0a0a]">Code {attempt.topTwoCode}</span>
+                    <span className="text-xs text-[#737373]">{new Date(attempt.completedAt).toLocaleString()}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {Object.entries(attempt.scores).map(([category, score]) => (
+                      <span key={category} className="text-xs text-[#4a4a4a]">{category}: {score}%</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Top Type Card */}
         <div className="ai-card">
@@ -183,7 +221,7 @@ export default function RIASECAssessment() {
   }
 
   // Assessment View
-  const question = riasecQuestions[currentQ];
+  const question = questions[currentQ];
   const likertLabels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'];
 
   return (
@@ -245,7 +283,7 @@ export default function RIASECAssessment() {
 
         {/* Question dots */}
         <div className="hidden sm:flex gap-1">
-          {riasecQuestions.map((_, i) => (
+          {questions.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrentQ(i)}

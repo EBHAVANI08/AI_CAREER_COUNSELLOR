@@ -6,16 +6,20 @@ import { mbtiQuestions, mbtiDescriptions } from '@/lib/assessment-data';
 import type { MBTIResult } from '@/types';
 import { ArrowLeft, ArrowRight, CheckCircle2, Loader2, Brain } from 'lucide-react';
 import SectionHeader from '@/components/layout/SectionHeader';
+import { useShuffledAssessment } from '@/hooks/use-shuffled-assessment';
+import { persistAssessmentAttempt } from '@/lib/assessment-api';
 
 export default function MBTIAssessment() {
-  const { setMbtiResult, mbtiResult, navigateTo, goBack } = useStore();
+  const { setMbtiResult, mbtiResult, mbtiHistory, navigateTo, goBack } = useStore();
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<number, 'A' | 'B'>>({});
   const [showResults, setShowResults] = useState(!!mbtiResult);
   const [analysisLoading, setAnalysisLoading] = useState(false);
   const [analysis, setAnalysis] = useState<string | null>(null);
+  const userKey = useStore(state => state.user?.email || 'guest');
+  const { questions, reshuffle } = useShuffledAssessment(mbtiQuestions, 'mbti', userKey);
 
-  const totalQuestions = mbtiQuestions.length;
+  const totalQuestions = questions.length;
   const progress = (Object.keys(answers).length / totalQuestions) * 100;
   const isFinished = Object.keys(answers).length === totalQuestions;
 
@@ -32,7 +36,7 @@ export default function MBTIAssessment() {
     const dimensions: Record<string, number> = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
 
     for (const [qIndex, choice] of Object.entries(answers)) {
-      const question = mbtiQuestions[parseInt(qIndex)];
+      const question = questions[parseInt(qIndex)];
       if (!question) continue;
       const selected = choice === 'A' ? question.optionA : question.optionB;
       dimensions[selected.value] += 1;
@@ -67,6 +71,16 @@ export default function MBTIAssessment() {
 
     setMbtiResult(result);
     setShowResults(true);
+    void persistAssessmentAttempt('MBTI', result, questions.map(question => question.id))
+      .catch(error => console.error('Could not persist MBTI attempt:', error));
+  };
+
+  const retakeAssessment = () => {
+    reshuffle();
+    setAnswers({});
+    setCurrentQ(0);
+    setAnalysis(null);
+    setShowResults(false);
   };
 
   const handleGetAIAnalysis = async () => {
@@ -111,12 +125,36 @@ export default function MBTIAssessment() {
 
     return (
       <div className="space-y-6 animate-fade-in">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
           <button onClick={goBack} className="flex items-center gap-1 rounded-xl px-2 py-1.5 text-sm text-[#b0b0b0] transition-all hover:text-[#0a0a0a] hover:bg-[#f5f5f5]">
             <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
           </button>
           <h1 className="section-title">MBTI Results</h1>
+          </div>
+          <button onClick={retakeAssessment} className="btn-secondary text-xs">Retake with new order</button>
         </div>
+
+        {mbtiHistory.length > 1 && (
+          <div className="card">
+            <h3 className="text-xs font-semibold text-[#737373] uppercase tracking-wider mb-3">Previous Attempts</h3>
+            <div className="space-y-2">
+              {mbtiHistory.slice(0, -1).reverse().map((attempt, index) => (
+                <div key={`${attempt.completedAt}-${index}`} className="rounded-xl border border-[#ebebeb] bg-[#fafafa] p-3">
+                  <div className="flex items-center justify-between gap-3 mb-2">
+                    <span className="text-sm font-semibold text-[#0a0a0a]">Type {attempt.type}</span>
+                    <span className="text-xs text-[#737373]">{new Date(attempt.completedAt).toLocaleString()}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {Object.entries(attempt.dimensions).map(([dimension, score]) => (
+                      <span key={dimension} className="text-xs text-[#4a4a4a]">{dimension}: {score}%</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Type Card */}
         <div className="ai-card">
@@ -202,7 +240,7 @@ export default function MBTIAssessment() {
   }
 
   // Assessment View
-  const question = mbtiQuestions[currentQ];
+  const question = questions[currentQ];
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -266,7 +304,7 @@ export default function MBTIAssessment() {
         </button>
 
         <div className="hidden sm:flex gap-1">
-          {mbtiQuestions.map((_, i) => (
+          {questions.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrentQ(i)}

@@ -7,16 +7,20 @@ import { careerFields } from '@/lib/ai/knowledge';
 import type { CareerQuizResult } from '@/types';
 import { ArrowLeft, ArrowRight, CheckCircle2, Loader2, Brain, TrendingUp } from 'lucide-react';
 import SectionHeader from '@/components/layout/SectionHeader';
+import { useShuffledAssessment } from '@/hooks/use-shuffled-assessment';
+import { persistAssessmentAttempt } from '@/lib/assessment-api';
 
 export default function CareerQuiz() {
-  const { setCareerQuizResult, careerQuizResult, navigateTo, goBack } = useStore();
+  const { setCareerQuizResult, careerQuizResult, careerQuizHistory, navigateTo, goBack } = useStore();
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({}); // qIndex -> optionIndex
   const [showResults, setShowResults] = useState(!!careerQuizResult);
   const [analysisLoading, setAnalysisLoading] = useState(false);
   const [analysis, setAnalysis] = useState<string | null>(null);
+  const userKey = useStore(state => state.user?.email || 'guest');
+  const { questions, reshuffle } = useShuffledAssessment(careerQuizQuestions, 'career-quiz', userKey);
 
-  const totalQuestions = careerQuizQuestions.length;
+  const totalQuestions = questions.length;
   const progress = (Object.keys(answers).length / totalQuestions) * 100;
   const isFinished = Object.keys(answers).length === totalQuestions;
 
@@ -34,7 +38,7 @@ export default function CareerQuiz() {
     const fieldCounts: Record<string, number> = {};
 
     for (const [qIndex, optIndex] of Object.entries(answers)) {
-      const question = careerQuizQuestions[parseInt(qIndex)];
+      const question = questions[parseInt(qIndex)];
       if (!question) continue;
       const field = question.options[optIndex]?.field;
       if (field) {
@@ -66,6 +70,16 @@ export default function CareerQuiz() {
 
     setCareerQuizResult(result);
     setShowResults(true);
+    void persistAssessmentAttempt('CAREER_QUIZ', result, questions.map(question => question.id))
+      .catch(error => console.error('Could not persist career quiz attempt:', error));
+  };
+
+  const retakeAssessment = () => {
+    reshuffle();
+    setAnswers({});
+    setCurrentQ(0);
+    setAnalysis(null);
+    setShowResults(false);
   };
 
   const handleGetAIAnalysis = async () => {
@@ -101,12 +115,38 @@ export default function CareerQuiz() {
   if (showResults && careerQuizResult) {
     return (
       <div className="space-y-6 animate-fade-in">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
           <button onClick={goBack} className="flex items-center gap-1 rounded-xl px-2 py-1.5 text-sm text-[#b0b0b0] transition-all hover:text-[#0a0a0a] hover:bg-[#f5f5f5]">
             <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Back</span>
           </button>
           <h1 className="section-title">Career Quiz Results</h1>
+          </div>
+          <button onClick={retakeAssessment} className="btn-secondary text-xs">Retake with new order</button>
         </div>
+
+        {careerQuizHistory.length > 1 && (
+          <div className="card">
+            <h3 className="text-xs font-semibold text-[#737373] uppercase tracking-wider mb-3">Previous Attempts</h3>
+            <div className="space-y-2">
+              {careerQuizHistory.slice(0, -1).reverse().map((attempt, index) => (
+                <div key={`${attempt.completedAt}-${index}`} className="rounded-xl border border-[#ebebeb] bg-[#fafafa] p-3">
+                  <div className="flex items-center justify-between gap-3 mb-2">
+                    <span className="text-sm font-semibold text-[#0a0a0a]">
+                      {attempt.topFields[0]?.field || 'Completed'} · {attempt.topFields[0]?.matchPercentage || 0}% match
+                    </span>
+                    <span className="text-xs text-[#737373]">{new Date(attempt.completedAt).toLocaleString()}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {Object.entries(attempt.fieldScores).map(([field, score]) => (
+                      <span key={field} className="text-xs text-[#4a4a4a]">{field}: {score}%</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Top 3 Fields */}
         <div className="space-y-4">
@@ -199,7 +239,7 @@ export default function CareerQuiz() {
   }
 
   // Assessment View
-  const question = careerQuizQuestions[currentQ];
+  const question = questions[currentQ];
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -264,7 +304,7 @@ export default function CareerQuiz() {
         </button>
 
         <div className="hidden sm:flex gap-1">
-          {careerQuizQuestions.map((_, i) => (
+          {questions.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrentQ(i)}
